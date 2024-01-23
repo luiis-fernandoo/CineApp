@@ -14,23 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CineApp"
         tools:targetApi="31">
-        <activity
-            android:name=".Activities.Activities.ProfileUserActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Activities.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Activities.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Activities.HomeActivity"
-            android:exported="false" />
+
         <activity
             android:name=".Activities.Activities.SplashActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,6 +24,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".Activities.Activities.ProfileUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activities.RegisterActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activities.Activities.HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.Activities.LoginActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.Activities.MainUserActivity"
+            android:exported="true" />
+
+
+
     </application>
 
 </manifest>
