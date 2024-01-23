@@ -5,18 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Activities.Activities.RegisterActivity">
+    tools:context=".Editar">
+
+
+
+    <View
+        android:id="@+id/containerUser"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/container_user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_user"
+        app:layout_constraintStart_toStartOf="@+id/containerUser"
+        app:layout_constraintEnd_toEndOf="@+id/containerUser"
+        app:layout_constraintTop_toTopOf="@+id/containerUser"
+        app:layout_constraintBottom_toBottomOf="@+id/containerUser"
+        />
 
     <TextView
         android:id="@+id/title_cadastre_se"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/title_cadastro"
+        android:text="Editar"
         android:fontFamily="sans-serif-condensed"
         android:textSize="50sp"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:layout_margin="100dp"
+        android:layout_margin="200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -73,10 +95,10 @@
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/bt_cadastro"
+        android:id="@+id/bt_salvar"
         style="@style/Button"
         android:layout_marginTop="30dp"
-        android:text="@string/cadastrar"
+        android:text="Salvar"
         app:layout_constraintTop_toBottomOf="@+id/containerComponents2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

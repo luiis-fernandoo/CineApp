@@ -3,26 +3,29 @@ package com.example.cineapp.Activities.Models;
 import java.util.Date;
 
 public class User {
+    private  String email;
+    private  String nome;
+    private String senha;
+    private  String cpf;
+    public String getCpf() {
+        return cpf;
+    }
 
-    private String name;
-    private String email;
-    private Date birth_date;
-    private String username;
-    private int id;
 
-    public User(String name, String email, Date birth_date, String username) {
-        this.name = name;
+    public User() {
+    }
+
+    public User(String email, String nome, String senha, String cpf) {
         this.email = email;
-        this.birth_date = birth_date;
-        this.username = username;
+        this.nome = nome;
+        this.senha = senha;
+        this.cpf = cpf;
     }
 
-    public String getName() {
-        return name;
-    }
+    public User(String email, String senha) {
+        this.email = email;
+        this.senha = senha;
 
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -33,27 +36,23 @@ public class User {
         this.email = email;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public String getNome() {
+        return nome;
     }
 
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public String getUsername() {
-        return username;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }
