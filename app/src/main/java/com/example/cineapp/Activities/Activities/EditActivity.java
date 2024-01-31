@@ -26,9 +26,9 @@ public class EditActivity extends AppCompatActivity {
 
         edit_email = findViewById(R.id.edit_email);
         edit_senha = findViewById(R.id.edit_senha);
-        edit_nome = findViewById(R.id.edit_nome);
+        edit_nome = findViewById(R.id.watchListName);
         edit_CPF = findViewById(R.id.edit_CPF);
-        Button bt_salvar = findViewById(R.id.bt_salvar);
+        Button bt_salvar = findViewById(R.id.btnWatchList);
 
         SharedPreferences sp = getSharedPreferences("app_Cassino", Context.MODE_PRIVATE);
         String savedNome = sp.getString("nome", "");

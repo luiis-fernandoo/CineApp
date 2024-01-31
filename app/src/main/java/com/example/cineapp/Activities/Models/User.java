@@ -3,6 +3,8 @@ package com.example.cineapp.Activities.Models;
 import java.util.Date;
 
 public class User {
+
+    private int id;
     private  String email;
     private  String nome;
     private String senha;
@@ -14,7 +16,10 @@ public class User {
 
     public User() {
     }
-
+    public User(int id, String nome) {
+        this.id = id;
+        this.nome = nome;
+    }
     public User(String email, String nome, String senha, String cpf) {
         this.email = email;
         this.nome = nome;
@@ -26,6 +31,14 @@ public class User {
         this.email = email;
         this.senha = senha;
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {

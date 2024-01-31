@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         String savedEmail = sp.getString("email", "");
 
         if (!savedEmail.isEmpty()) {
-            Intent intent = new Intent(LoginActivity.this, MainUserActivity.class);
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
         }

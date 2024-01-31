@@ -31,7 +31,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         edit_email = findViewById(R.id.edit_email);
         edit_senha = findViewById(R.id.edit_senha);
-        edit_nome = findViewById(R.id.edit_nome);
+        edit_nome = findViewById(R.id.watchListName);
         edit_CPF = findViewById(R.id.edit_CPF);
         Button bt_cadastro = findViewById(R.id.bt_cadastro);
 

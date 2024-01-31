@@ -25,7 +25,7 @@ public class FeedEntryUser implements BaseColumns {
     public static class DBHelpers extends SQLiteOpenHelper {
 
         public DBHelpers(@Nullable Context context) {
-            super(context, "CineApp.db", null, 1);
+            super(context, "CineAppV2.db", null, 2);
         }
 
         @Override
@@ -34,8 +34,9 @@ public class FeedEntryUser implements BaseColumns {
         }
 
         @Override
-        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-            // Implemente a lógica de atualização aqui, se necessário
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         }
+
     }
 }

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         button_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new MyAsyncTask().execute();
+                //new MyAsyncTask().execute();
             }
         });
 
@@ -83,44 +83,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //conexão com a api.. Está tudo aqui para conectarmos tudo ao seus devidos lugares mais tarde
-    public class MyAsyncTask extends AsyncTask<Void, Void, String> {
-        @Override
-        protected String doInBackground(Void... voids) {
-            OkHttpClient client = new OkHttpClient();
-
-            Request request = new Request.Builder()
-                    .url("https://api.themoviedb.org/3/movie/572802")
-                    .get()
-                    .addHeader("accept", "application/json")
-                    .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNTc0YmRkOGM5ZTg4MTQxNGM0NzI2YmRlMTgxYTEyNyIsInN1YiI6IjY1OWZkZDhkOGRlMGFlMDEyNThjMmVkZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.VG61EHZUYapdl2lk_rnun2DQK7y25nz5C8Q1WqJFyhY")
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-
-            }catch (IOException e) {
-            // Trate a exceção de maneira apropriada
-            return "Erro de rede: " + e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                JSONObject json = new JSONObject(result);
-                // Acessar a chave "title"
-                String title = json.getString("original_title");
-                // Atualize a interface do usuário com o resultado
-                hello.setText("original_title:" + title);
-            }catch (JSONException e) {
-                // Lidar com erros de análise JSON
-                e.printStackTrace();
-                hello.setText("Erro ao processar resposta JSON");
-            }
-
-        }
-    }
 }
 

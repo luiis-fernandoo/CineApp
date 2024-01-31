@@ -101,5 +101,34 @@ public class UserDao {
     }
 
 
+    public User getUserNameID(String email) {
+        SQLiteDatabase dbLite = this.db.getReadableDatabase();
+        User userName = new User(0, "");
+        String nomeUsuario = "";
+        int userId = 0;
+
+        String[] columns = {"_id", "nome"};
+        String selection = "email = ?";
+        String[] selectionArgs = {email};
+
+        Cursor cursor = dbLite.query("user", columns, selection, selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                int userIdColumnIndex = cursor.getColumnIndex("_id");
+                int columnIndex = cursor.getColumnIndex("nome");
+                if (userIdColumnIndex != -1 && columnIndex != -1) {
+                    userId = cursor.getInt(userIdColumnIndex);
+                    nomeUsuario = cursor.getString(columnIndex);
+                    userName = new User(userId, nomeUsuario);
+                }
+            }
+            cursor.close();
+        }
+
+        return userName;
+    }
+
+
 
 }

@@ -2,49 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1B1B1B"
-    tools:context=".Activities.Activities.HomeActivity" >
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="Lançamentos 2024"
-        android:textColor="#FFFFFF"
-        android:textSize="23dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.074"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView3"
-        app:layout_constraintVertical_bias="0.739" />
-
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="144dp"
-        android:layout_height="182dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/_64090_000_p" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="144dp"
-        android:layout_height="182dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.674"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/_64091_000_p" />
+    tools:context=".Activities.Activities.HomeActivity">
 
     <ImageView
         android:id="@+id/imageView3"
@@ -59,6 +21,7 @@
         app:srcCompat="@drawable/doctor_strange_2_9598cd3f" />
 
     <TextView
+        android:id="@+id/textViewTeste"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/baloo_chettan"
@@ -72,57 +35,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.371" />
 
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="144dp"
-        android:layout_height="182dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.059"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.531"
-        app:srcCompat="@drawable/madame_teia_poster" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="144dp"
-        android:layout_height="182dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.674"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.531"
-        app:srcCompat="@drawable/fyhrq3txoae9fby" />
-
-    <TextView
-        android:id="@+id/textView2"
+    <Button
+        android:id="@+id/createWatchList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="Madame Teia"
-        android:textColor="#FFFFFF"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:text="WatchList"
+        app:layout_constraintEnd_toStartOf="@+id/perfil"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.662" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewTeste" />
 
-    <TextView
-        android:id="@+id/textView3"
+    <Button
+        android:id="@+id/perfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/baloo_chettan"
-        android:text="Besouro Azul"
-        android:textColor="#FFFFFF"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="123dp"
+        android:text="Perfil"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.63"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.662" />
+        app:layout_constraintStart_toEndOf="@+id/createWatchList"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTeste" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".Editar">
-
-
+    tools:context=".Activities.Activities.CreateWatchList">
 
     <View
         android:id="@+id/containerUser"
@@ -33,66 +31,38 @@
         android:id="@+id/title_cadastre_se"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Editar"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="50sp"
-        android:textColor="@color/white"
-        android:textStyle="bold"
         android:layout_margin="200dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="sans-serif-condensed"
+        android:text="Nome da WatchList"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/containerComponents2"
         style="@style/ContainerComponents2"
-        app:layout_constraintTop_toBottomOf="@id/title_cadastre_se"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="366dp"
+        android:layout_height="132dp"
+        android:layout_marginTop="20dp"
 
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_cadastre_se" />
 
     <EditText
         android:id="@+id/watchListName"
         style="@style/Edit_Text"
+        android:layout_marginTop="36dp"
         android:hint="Nome"
         android:inputType="text"
-        app:layout_constraintStart_toStartOf="@id/containerComponents2"
         app:layout_constraintEnd_toEndOf="@id/containerComponents2"
-        app:layout_constraintTop_toTopOf="@id/containerComponents2"
-        />
-    <EditText
-        android:id="@+id/edit_email"
-        style="@style/Edit_Text"
-        android:hint="Email"
-        android:drawableRight="@drawable/ic_email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintTop_toBottomOf="@+id/edit_CPF"
+        app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="@id/containerComponents2"
-        app:layout_constraintEnd_toEndOf="@id/containerComponents2"
-
-        />
-    <EditText
-        android:id="@+id/edit_CPF"
-        style="@style/Edit_Text"
-        android:hint="CPF"
-        android:inputType="textCapCharacters"
-        app:layout_constraintTop_toBottomOf="@+id/watchListName"
-        app:layout_constraintStart_toStartOf="@id/containerComponents2"
-        app:layout_constraintEnd_toEndOf="@id/containerComponents2"
-
-        />
-
-    <EditText
-        android:id="@+id/edit_senha"
-        style="@style/Edit_Text"
-        android:hint="Senha"
-        android:drawableRight="@drawable/ic_eye"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@id/containerComponents2"
-        app:layout_constraintEnd_toEndOf="@id/containerComponents2"
-        app:layout_constraintTop_toBottomOf="@+id/edit_email"
-        />
+        app:layout_constraintTop_toTopOf="@id/containerComponents2" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnWatchList"

@@ -31,7 +31,7 @@
         />
 
     <EditText
-        android:id="@+id/edit_nome"
+        android:id="@+id/watchListName"
         style="@style/Edit_Text"
         android:hint="Nome"
         android:inputType="text"
@@ -55,7 +55,7 @@
         style="@style/Edit_Text"
         android:hint="CPF"
         android:inputType="textCapCharacters"
-        app:layout_constraintTop_toBottomOf="@+id/edit_nome"
+        app:layout_constraintTop_toBottomOf="@+id/watchListName"
         app:layout_constraintStart_toStartOf="@id/containerComponents2"
         app:layout_constraintEnd_toEndOf="@id/containerComponents2"
 
