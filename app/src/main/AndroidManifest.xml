@@ -15,6 +15,9 @@
         android:theme="@style/Theme.CineApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.Activities.detailsFilmActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Activities.CreateWatchList"
             android:exported="false" />
         <activity

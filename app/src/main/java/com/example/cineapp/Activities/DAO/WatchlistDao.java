@@ -24,18 +24,15 @@ public class WatchlistDao {
         try {
             SQLiteDatabase dbLite = this.db.getWritableDatabase();
             ContentValues values = new ContentValues();
-            Log.i("WatchList", this.watchlist.getName());
+            values.put("user_id", this.watchlist.getUser_id());
+            values.put("name", this.watchlist.getName());
 
-            values.put(FeedEntryWatchlist.COLUMN_NAME_NAME, this.watchlist.getName());
-            values.put(FeedEntryWatchlist.COLUMN_NAME_USER_ID, this.watchlist.getUser_id());
-
-            long resultado = dbLite.insert(FeedEntryWatchlist.TABLE_NAME, null, values);
-            Log.i("WatchList", String.valueOf(values));
+            long resultado = dbLite.insert("watchlist", null, values);
+            Log.i("WatchList", "" + resultado);
 
             return resultado != -1;
         } catch (Exception e) {
-
-            Log.e("SQLite", "Erro ao inserir na tabela watchlist: " + e.getMessage());
+            Log.e("Test", "Erro ao inserir na tabela watchlist: " + e.getMessage());
             return false;
         }
     }

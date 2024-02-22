@@ -6,10 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1B1B1B"
-    tools:context=".Activities.Activities.HomeActivity">
+    tools:context=".Activities.Activities.HomeActivity"
+    tools:layout_editor_absoluteX="-171dp"
+    tools:layout_editor_absoluteY="0dp">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/img2"
+        android:layout_width="144dp"
+        android:layout_height="182dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.842"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.808"
+        app:srcCompat="@drawable/madame_teia_poster" />
+
+    <ImageView
+        android:id="@+id/imagePrincipal"
         android:layout_width="411dp"
         android:layout_height="242dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,4 +72,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/createWatchList"
         app:layout_constraintTop_toBottomOf="@+id/textViewTeste" />
+
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="144dp"
+        android:layout_height="182dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.168"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.808"
+        app:srcCompat="@drawable/madame_teia_poster" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,9 @@
 package com.example.cineapp.Activities.DAO;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.cineapp.Activities.Helpers.FeedEntryFilm;
 import com.example.cineapp.Activities.Helpers.FeedEntryUser;

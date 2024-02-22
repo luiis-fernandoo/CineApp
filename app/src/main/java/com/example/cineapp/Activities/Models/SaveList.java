@@ -5,11 +5,11 @@ public class SaveList {
     private int id;
     private int film_id;
     private int watchList_id;
+    private int user_id;
 
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
@@ -30,8 +30,16 @@ public class SaveList {
         this.watchList_id = watchList_id;
     }
 
-    public SaveList(int film_id, int watchList_id) {
+    public int getUser_id() {
+        return user_id;
+    }
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public SaveList(int film_id, int watchList_id, int user_id) {
         this.film_id = film_id;
         this.watchList_id = watchList_id;
+        this.user_id = user_id;
     }
 }

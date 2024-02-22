@@ -23,16 +23,14 @@ public class FeedEntryWatchlist implements BaseColumns {
                     FeedEntryUser.TABLE_NAME + "(" + FeedEntryUser._ID + "))";
 
     public static class DBHelpers extends SQLiteOpenHelper {
+        public DBHelpers(@Nullable Context context) {
+            super(context, "CineAppV3.db", null, 1);
+        }
 
-
-            public DBHelpers(@Nullable Context context) {
-                super(context, "CineAppV2.db", null, 2);
-            }
-
-            @Override
+        @Override
             public void onCreate(SQLiteDatabase db) {
+                Log.d("SQLite", "Tabela watchlist criada com sucesso!" + SQL_CREATE_ENTRIES);
                 db.execSQL(SQL_CREATE_ENTRIES);
-                Log.d("SQLite", "Tabela watchlist criada com sucesso!");
             }
             @Override
 

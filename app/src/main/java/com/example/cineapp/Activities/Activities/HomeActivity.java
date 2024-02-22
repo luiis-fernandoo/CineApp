@@ -2,14 +2,9 @@ package com.example.cineapp.Activities.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,15 +19,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HomeActivity extends AppCompatActivity implements MyAsyncTask.AsyncTaskListener {
 
     Button createWatchList;
     Button perfil;
     TextView textViewTeste;
     ConstraintLayout constraintLayout;
+    ImageView img1, img2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +36,8 @@ public class HomeActivity extends AppCompatActivity implements MyAsyncTask.Async
         createWatchList = findViewById(R.id.createWatchList);
         perfil = findViewById(R.id.perfil);
         textViewTeste = findViewById(R.id.textViewTeste);
+        img1 = findViewById(R.id.img1);
+        img2 = findViewById(R.id.img2);
 
         MyAsyncTask myAsyncTask = new MyAsyncTask(this);
         myAsyncTask.execute();
@@ -67,39 +62,56 @@ public class HomeActivity extends AppCompatActivity implements MyAsyncTask.Async
     @Override
     public void onTaskComplete(JSONObject result) {
         try {
-
             JSONArray results = result.getJSONArray("results");
+
             if (results.length() > 0) {
                 for (int i = 0; i < 3; i++) {
                     try {
                         JSONObject currentResult = results.getJSONObject(i);
                         String filmId = currentResult.getString("id");
-                        ImageView imageView = new ImageView(this);
-                        imageView.setId(Integer.parseInt(filmId));
-                        String backdropPath = "https://image.tmdb.org/t/p/original/" + currentResult.getString("backdrop_path");
+                        img1.setTag(filmId);
+
+                        String poster_path = "https://image.tmdb.org/t/p/original/" + currentResult.getString("poster_path");
                         Glide.with(this)
-                                .load(backdropPath)
-                                .into(imageView);
+                                .load(poster_path)
+                                .into(img1);
                         //imageView.setImageResource(backdropPath);
-                        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-                                500,
-                                3000
-                        );
-                        if (i == 0) {
-                            // Para a primeira imagem, alinhe à esquerda do ConstraintLayout
-                            layoutParams.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
-                        } else {
-                            // Para as imagens subsequentes, alinhe à direita da imagem anterior com a margem
-                            layoutParams.startToEnd = constraintLayout.getChildAt(i - 1).getId();
-                            layoutParams.leftMargin = 16;
-                        }
 
-                        imageView.setLayoutParams(layoutParams);
-                        if (imageView.getParent() != null) {
-                            ((ViewGroup) imageView.getParent()).removeView(imageView);
+                        if (img1.getParent() != null) {
+                            ((ViewGroup) img1.getParent()).removeView(img1);
                         }
-                        constraintLayout.addView(imageView);
+                        constraintLayout.addView(img1);
+                        img1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent it = new Intent(HomeActivity.this, detailsFilmActivity.class);
+                                it.putExtra("tag", (String)img1.getTag());
+                                startActivity(it);
+                            }
+                        });
+                        i++;
+                        JSONObject currentResult2 = results.getJSONObject(i);
+                        String filmId2 = currentResult2.getString("id");
+                        img2.setTag(filmId2);
 
+                        String poster_path2 = "https://image.tmdb.org/t/p/original/" + currentResult2.getString("poster_path");
+                        Glide.with(this)
+                                .load(poster_path2)
+                                .into(img2);
+                        //imageView.setImageResource(backdropPath);
+
+                        if (img2.getParent() != null) {
+                            ((ViewGroup) img2.getParent()).removeView(img2);
+                        }
+                        constraintLayout.addView(img2);
+                        img2.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent it = new Intent(HomeActivity.this, detailsFilmActivity.class);
+                                it.putExtra("tag", (String)img2.getTag());
+                                startActivity(it);
+                            }
+                        });
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }

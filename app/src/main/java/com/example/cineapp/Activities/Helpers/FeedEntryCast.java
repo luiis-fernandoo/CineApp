@@ -26,12 +26,9 @@ public class FeedEntryCast implements BaseColumns {
                     FeedEntryCast.COLUMN_NAME_NAME + " TEXT)";
 
     public static class DBHelpers extends SQLiteOpenHelper {
-
-
         public DBHelpers(@Nullable Context context) {
-            super(context, "CineAppV2.db", null, 2);
+            super(context, "CineAppV3.db", null, 1);
         }
-
 
         @Override
         public void onCreate(SQLiteDatabase db) {
