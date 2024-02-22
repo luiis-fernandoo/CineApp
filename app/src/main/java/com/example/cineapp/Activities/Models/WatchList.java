@@ -11,6 +11,10 @@ public class WatchList {
         this.user_id = user_id;
     }
 
+    public WatchList() {
+
+    }
+
     public int getId() {
         return id;
     }

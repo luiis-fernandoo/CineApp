@@ -28,7 +28,6 @@ public class CategoryDao {
 
             long resultado = dbLite.insert("category", null, values);
             Log.i("category", "" + resultado);
-
             return resultado != -1;
         } catch (Exception e) {
             Log.e("Test", "Erro ao inserir na tabela category: " + e.getMessage());

@@ -1,25 +1,35 @@
 package com.example.cineapp.Activities.Activities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.cineapp.Activities.DAO.UserDao;
+import com.example.cineapp.Activities.DAO.WatchlistDao;
 import com.example.cineapp.Activities.Helpers.MyAsyncTask;
-import com.example.cineapp.Activities.Models.Category;
-import com.example.cineapp.Activities.Models.Film;
+import com.example.cineapp.Activities.Models.User;
+import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
 
-import org.checkerframework.checker.units.qual.C;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -117,6 +127,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                     addWatchList.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                                exibirPopup(view);
                         }
                     });
                 } catch (JSONException e) {
@@ -132,6 +143,88 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
     }
 
     public void onTaskError(String error) {
+
+    }
+
+    private void exibirPopup(View view) {
+        view = LayoutInflater.from(this).inflate(R.layout.activity_popup_view, null);
+
+        // Encontrar o Spinner
+        Spinner spinner = view.findViewById(R.id.watchlist_spinner);
+
+        // Carregar as watchlists do banco
+        new LoadWatchlistsTask(getApplicationContext(), spinner).execute();
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Obter a watchlist selecionada
+                String watchlistName = (String) parent.getItemAtPosition(position);
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Nenhuma watchlist foi selecionada
+            }
+        });
+
+        // Criar um AlertDialog
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setTitle("Selecionar Watchlist")
+                .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String watchlistName = (String) spinner.getSelectedItem();
+
+                        Log.d("Selected Watchlist", ""+watchlistName);
+                    }
+                })
+                .create();
+
+        dialog.show();
+    }
+    public class LoadWatchlistsTask extends AsyncTask<Void, Void, List<String>> {
+        private Context context;
+        private Spinner spinner;
+
+        public LoadWatchlistsTask(Context context, Spinner spinner) {
+            this.context = context;
+            this.spinner = spinner;
+        }
+
+        @Override
+        protected List<String> doInBackground(Void... params) {
+            SharedPreferences sp = getSharedPreferences("app", Context.MODE_PRIVATE);
+            String savedEmail = sp.getString("email", "");
+
+            User user = new User();
+            UserDao userDao = new UserDao(getApplicationContext(), user);
+            User userPass = userDao.getUserNameID(savedEmail);
+
+            WatchList watchList = new WatchList();
+            WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), watchList);
+            List<WatchList> watchlists = watchlistDao.getAllWatchList(userPass);
+
+            List<String> watchlistNames = new ArrayList<>();
+            for (WatchList watchlist : watchlists) {
+                watchlistNames.add(watchlist.getName());
+            }
+
+            return watchlistNames;
+
+        }
+
+        protected void onPostExecute(List<String> watchlistNames) {
+            // Atualizar o Spinner com a lista de watchlists
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    context,
+                    android.R.layout.simple_spinner_item,
+                    watchlistNames
+            );
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }
 
     }
 }

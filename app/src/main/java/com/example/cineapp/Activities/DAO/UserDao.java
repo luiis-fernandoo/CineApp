@@ -15,6 +15,7 @@ import java.util.List;
 public class UserDao {
     private final User user;
     private FeedEntryUser.DBHelpers db;
+
     private static final String TAG = "UserLog";
 
     public UserDao(Context ctx, User user) {

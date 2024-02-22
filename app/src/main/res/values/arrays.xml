@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="watchlist_options">
+        <item>Watchlist 1</item>
+        <item>Watchlist 2</item>
+        <!-- Adicione mais itens conforme necessário -->
+    </string-array>
+</resources>
