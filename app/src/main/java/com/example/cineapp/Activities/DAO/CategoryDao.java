@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.cineapp.Activities.Helpers.FeedEntry;
 import com.example.cineapp.Activities.Helpers.FeedEntryCategory;
 import com.example.cineapp.Activities.Helpers.FeedEntryUser;
 import com.example.cineapp.Activities.Models.Category;
@@ -12,12 +13,13 @@ import com.example.cineapp.Activities.Models.User;
 
 public class CategoryDao {
     private final Category category;
-    private FeedEntryCategory.DBHelpers db;
+    private FeedEntry.DBHelpers db;
+    private FeedEntryCategory feedEntryCategory;
     private static final String TAG = "CategoryLog";
 
     public CategoryDao(Context ctx, Category category) {
         this.category = category;
-        this.db = new FeedEntryCategory.DBHelpers(ctx);
+        this.db = new FeedEntry.DBHelpers(ctx);
     }
 
     public boolean insertNewCategory() {

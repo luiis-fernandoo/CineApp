@@ -7,6 +7,10 @@ public class SaveList {
     private int watchList_id;
     private int user_id;
 
+    public SaveList() {
+
+    }
+
     public int getId() {
         return id;
     }

@@ -23,9 +23,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.cineapp.Activities.DAO.FilmDao;
+import com.example.cineapp.Activities.DAO.SaveListDAO;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
 import com.example.cineapp.Activities.Helpers.MyAsyncTask;
+import com.example.cineapp.Activities.Models.Film;
+import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
@@ -127,7 +131,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                     addWatchList.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                                exibirPopup(view);
+                            exibirPopup(view, result);
                         }
                     });
                 } catch (JSONException e) {
@@ -146,7 +150,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
 
     }
 
-    private void exibirPopup(View view) {
+    private void exibirPopup(View view, JSONObject film) {
         view = LayoutInflater.from(this).inflate(R.layout.activity_popup_view, null);
 
         // Encontrar o Spinner
@@ -160,7 +164,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // Obter a watchlist selecionada
                 String watchlistName = (String) parent.getItemAtPosition(position);
-
+               //Log.d("Selected Watchlist", ""+watchlistName);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -177,7 +181,27 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                     public void onClick(DialogInterface dialog, int which) {
                         String watchlistName = (String) spinner.getSelectedItem();
 
-                        Log.d("Selected Watchlist", ""+watchlistName);
+                        WatchList watchList = new WatchList();
+                        WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), watchList);
+                        WatchList ObjwatchList = watchlistDao.getWatchlist(watchlistName);
+                        SaveList saveList = new SaveList();
+                        SaveListDAO saveListDAO = new SaveListDAO(getApplicationContext(), saveList);
+                        try {
+                            if(saveListDAO.insertNewSaveList(film.getString("id"), ObjwatchList)){
+                                Film filme = new Film();
+                                FilmDao filmDao = new FilmDao(getApplicationContext(), filme);
+                                if(filmDao.insertFilm(film)){
+                                    Log.d("Filme", "Filme cadastrado");
+                                }else{
+                                    Log.d("Filme", "Erro");
+                                }
+                                Toast.makeText(detailsFilmActivity.this, "Filme salvo na watchlist " + ObjwatchList.getName(), Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(detailsFilmActivity.this, "Não foi possível salvar o filme", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 })
                 .create();

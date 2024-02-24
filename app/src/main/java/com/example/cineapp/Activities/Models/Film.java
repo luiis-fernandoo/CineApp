@@ -27,6 +27,10 @@ public class Film {
         this.overview = overview;
     }
 
+    public Film() {
+
+    }
+
     public boolean isAdult() {
         return adult;
     }

@@ -8,6 +8,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.cineapp.Activities.Helpers.FeedEntry;
 import com.example.cineapp.Activities.Helpers.FeedEntryWatchlist;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
@@ -21,15 +22,16 @@ import java.util.List;
 public class WatchlistDao {
     private final WatchList watchlist;
     private Connection connection;
-    private FeedEntryWatchlist.DBHelpers db;
+    private FeedEntryWatchlist feedEntryWatchlist;
+    private FeedEntry.DBHelpers db;
     private static final String TAG = "WatchlistLog";
     public WatchlistDao(Context ctx, WatchList watchlist) {
         this.watchlist = watchlist;
-        this.db = new FeedEntryWatchlist.DBHelpers(ctx);
+        this.db = new FeedEntry.DBHelpers(ctx);
     }
     public WatchlistDao(Context ctx, WatchList watchlist, Connection connection) {
         this.watchlist = watchlist;
-        this.db = new FeedEntryWatchlist.DBHelpers(ctx);
+        this.db = new FeedEntry.DBHelpers(ctx);
         this.connection = connection;
     }
 
@@ -68,6 +70,27 @@ public class WatchlistDao {
         db.close();
 
         return watchlists;
+    }
+
+    @SuppressLint("Range")
+    public WatchList getWatchlist(String name){
+        SQLiteDatabase db = this.db.getReadableDatabase();
+
+        String sql = "Select * From watchlist Where name = '"+ name +"';";
+        WatchList watchlist = new WatchList();
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            watchlist.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            watchlist.setName(cursor.getString(cursor.getColumnIndex("name")));
+            watchlist.setUser_id(cursor.getInt(cursor.getColumnIndex("user_id")));
+        }
+        cursor.close();
+        db.close();
+
+        return watchlist;
+
     }
 
 }
