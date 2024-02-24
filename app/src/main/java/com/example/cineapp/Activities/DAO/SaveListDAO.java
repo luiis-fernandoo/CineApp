@@ -5,32 +5,34 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.cineapp.Activities.Helpers.FeedEntry;
 import com.example.cineapp.Activities.Helpers.FeedEntrySaveList;
 import com.example.cineapp.Activities.Helpers.FeedEntryWatchlist;
 import com.example.cineapp.Activities.Models.SaveList;
+import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
 
 public class SaveListDAO {
 
     private final SaveList saveList;
-    private FeedEntrySaveList.DBHelpers db;
+    private FeedEntry.DBHelpers db;
+    private FeedEntrySaveList feedEntrySaveList;
     private static final String TAG = "SaveListLog";
 
     public SaveListDAO(Context ctx,SaveList saveList) {
         this.saveList = saveList;
-        this.db = new FeedEntrySaveList.DBHelpers(ctx);
+        this.db = new FeedEntry.DBHelpers(ctx);
     }
-    public boolean insertNewSaveList() {
+    public boolean insertNewSaveList(String filmId, WatchList ObjWatchList) {
         try {
             SQLiteDatabase dbLite = this.db.getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put(FeedEntrySaveList.COLUMN_NAME_WATCHLIST_ID, this.saveList.getWatchList_id());
-            values.put(FeedEntrySaveList.COLUMN_NAME_FILM_ID, this.saveList.getFilm_id());
-            values.put(FeedEntrySaveList.COLUMN_NAME_USER_ID, this.saveList.getUser_id());
+            values.put("watchList_id", ObjWatchList.getId());
+            values.put("film_id", filmId);
+            values.put("user_id", ObjWatchList.getUser_id());
 
-            long resultado = dbLite.insert(FeedEntrySaveList.TABLE_NAME, null, values);
-            Log.i("SaveList", String.valueOf(values));
+            long resultado = dbLite.insert("saveList", null, values);
 
             return resultado != -1;
         } catch (Exception e) {

@@ -10,42 +10,10 @@ import androidx.annotation.Nullable;
 
 public class FeedEntryUser implements BaseColumns {
 
-    public static final String TABLE_NAME = "user";
-    public static final String COLUMN_NAME_NAME = "nome";
-    public static final String COLUMN_NAME_EMAIL = "email";
-    public static final String COLUMN_NAME_CPF = "cpf";
-    public static final String COLUMN_NAME_PASSWORD = "senha";
+    public String TABLE_NAME = "user";
+    public String COLUMN_NAME_NAME = "nome";
+    public String COLUMN_NAME_EMAIL = "email";
+    public String COLUMN_NAME_CPF = "cpf";
+    public String COLUMN_NAME_PASSWORD = "senha";
 
-    private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + FeedEntryUser.TABLE_NAME + " (" +
-                    FeedEntryUser._ID + " INTEGER PRIMARY KEY, " +
-                    FeedEntryUser.COLUMN_NAME_NAME + " TEXT, " +
-                    FeedEntryUser.COLUMN_NAME_EMAIL + " TEXT, " +
-                    FeedEntryUser.COLUMN_NAME_CPF + " TEXT, " +
-                    FeedEntryUser.COLUMN_NAME_PASSWORD + " TEXT)";
-    private static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + FeedEntryUser.TABLE_NAME;
-    public static class DBHelpers extends SQLiteOpenHelper {
-        public static final int DATABASE_VERSION = 1;
-        public static final String DATABASE_NAME = "cineApp.db";
-        public DBHelpers(@Nullable Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(SQL_DELETE_ENTRIES);
-            db.execSQL(SQL_CREATE_ENTRIES);
-        }
-
-        @Override
-        public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
-            db.execSQL(SQL_DELETE_ENTRIES);
-            onCreate(db);
-        }
-        public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            onUpgrade(db, oldVersion, newVersion);
-        }
-
-    }
 }
