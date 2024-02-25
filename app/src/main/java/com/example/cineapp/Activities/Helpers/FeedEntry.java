@@ -13,9 +13,12 @@ public class FeedEntry implements BaseColumns {
     static FeedEntryFilm feedEntryFilm = new FeedEntryFilm();
     static FeedEntryCategory feedEntryCategory = new FeedEntryCategory();
     static FeedEntryCast feedEntryCast = new FeedEntryCast();
+    static FeedEntryLembrete feedEntryLembrete = new FeedEntryLembrete();
+
     public static class DBHelpers extends SQLiteOpenHelper {
         public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "cineApp.db";
+
         private static final String SQL_CREATE_ENTRIES_USER =
                 "CREATE TABLE " + feedEntryUser.TABLE_NAME + " (" +
                         feedEntryUser._ID + " INTEGER PRIMARY KEY, " +
@@ -67,6 +70,14 @@ public class FeedEntry implements BaseColumns {
                         feedEntryWatchlist.COLUMN_NAME_NAME + " TEXT," +
                         feedEntryWatchlist.COLUMN_NAME_USER_ID + " INTEGER REFERENCES " +
                         feedEntryWatchlist.TABLE_NAME + "(" + feedEntryUser._ID + "))";
+        private static final String SQL_CREATE_ENTRIES_LEMBRETE =
+                "CREATE TABLE " + feedEntryLembrete.TABLE_NAME + " (" +
+                        feedEntryLembrete._ID + " INTEGER PRIMARY KEY, " +
+                        feedEntryLembrete.COLUMN_NAME_DATE + " DATE," +
+                        feedEntryLembrete.COLUMN_NAME_FILM_ID + " INTEGER REFERENCES " +
+                        feedEntryFilm.TABLE_NAME + "(" + feedEntryFilm._ID + ")," +
+                        feedEntryLembrete.COLUMN_NAME_USER_ID + " INTEGER REFERENCES " +
+                        feedEntryUser.TABLE_NAME + "(" + feedEntryUser._ID + "))";
 
         public DBHelpers(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -81,6 +92,7 @@ public class FeedEntry implements BaseColumns {
             db.execSQL(SQL_CREATE_ENTRIES_FILM);
             db.execSQL(SQL_CREATE_ENTRIES_SAVELIST);
             db.execSQL(SQL_CREATE_ENTRIES_WATCHLIST);
+            db.execSQL(SQL_CREATE_ENTRIES_LEMBRETE);
         }
 
         @Override

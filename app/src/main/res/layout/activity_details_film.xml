@@ -111,8 +111,8 @@
 
     <Button
         android:id="@+id/addWatchList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="141dp"
+        android:layout_height="56dp"
         android:layout_marginStart="160dp"
         android:layout_marginTop="55dp"
         android:layout_marginEnd="161dp"
@@ -120,10 +120,24 @@
         android:text="Adicionar na WatchList"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tagline" />
+        app:layout_constraintTop_toBottomOf="@+id/tagline"
+        app:layout_constraintVertical_bias="0.375" />
 
-
+    <Button
+        android:id="@+id/addLembrete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="415dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="26dp"
+        android:text="lembrete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/addWatchList"
+        app:layout_constraintTop_toBottomOf="@+id/imagePrincipal" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

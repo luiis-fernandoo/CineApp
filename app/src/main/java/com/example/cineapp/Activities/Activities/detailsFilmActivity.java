@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,19 +18,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.cineapp.Activities.DAO.FilmDao;
+import com.example.cineapp.Activities.DAO.LembreteDao;
 import com.example.cineapp.Activities.DAO.SaveListDAO;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
 import com.example.cineapp.Activities.Helpers.MyAsyncTask;
 import com.example.cineapp.Activities.Models.Film;
+import com.example.cineapp.Activities.Models.Reminder;
 import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
@@ -38,14 +44,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTask.AsyncTaskListener {
     ImageView imagePrincipal;
     TextView titleDetails, overview, genres, production, release_date, tagline;
     ConstraintLayout constraintLayout;
-    Button addWatchList;
+    Button addWatchList, addLembrete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +71,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         release_date = findViewById(R.id.release_date);
         tagline = findViewById(R.id.tagline);
         addWatchList = findViewById(R.id.addWatchList);
+        addLembrete = findViewById(R.id.addLembrete);
 
         Intent it = getIntent();
         String tag = it.getStringExtra("tag");
@@ -128,10 +139,24 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
 
                     tagline.setText(result.getString("tagline"));
 
+                    SharedPreferences sp = getSharedPreferences("app", Context.MODE_PRIVATE);
+                    String savedEmail = sp.getString("email", "");
+
+                    User user = new User();
+                    UserDao userDao = new UserDao(getApplicationContext(), user);
+                    User userPass = userDao.getUserNameID(savedEmail);
+
                     addWatchList.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             exibirPopup(view, result);
+                        }
+                    });
+
+                    addLembrete.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            exibirAddLembrete(view,  result, userPass);
                         }
                     });
                 } catch (JSONException e) {
@@ -207,6 +232,72 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                 .create();
 
         dialog.show();
+    }
+
+    public void exibirAddLembrete(View view,  JSONObject film, User userPass) {
+        view = LayoutInflater.from(this).inflate(R.layout.popup_date_pick, null);
+
+        // Encontrar o DatePicker e o TimePicker
+        DatePicker datePicker = view.findViewById(R.id.datePicker);
+        TimePicker timePicker = view.findViewById(R.id.timePicker);
+
+        Calendar calendar = Calendar.getInstance();
+        datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this)
+                .setView(view)
+                .setTitle("Selecionar Data e Hora")
+                .setPositiveButton("Próximo", null);
+
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button nextButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                nextButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // Obter a data selecionada
+                        int year = datePicker.getYear();
+                        int month = datePicker.getMonth();
+                        int day = datePicker.getDayOfMonth();
+
+                        // Fechar o diálogo do DatePicker
+                        dialog.dismiss();
+
+                        exibirTimePicker(day, month, year,  film, userPass);
+                    }
+                });
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void exibirTimePicker(int day, int month, int year,  JSONObject film, User userPass) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                Reminder reminder = new Reminder();
+                LembreteDao lembreteDao = new LembreteDao(getApplicationContext(), reminder);
+
+                String date  = day + "/" + (month + 1) + "/" + year + " " + hourOfDay + ":" + minute;
+                Log.d("Selected DateTime", ""+ date);
+
+                try {
+                    if(lembreteDao.insertLembrete(date, Integer.parseInt(film.getString("id")), userPass.getId())){
+                        Toast.makeText(detailsFilmActivity.this, "Lembrete criado com sucesso", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(detailsFilmActivity.this, "Erro ao criar o lembrete", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                Log.d("Selected DateTime", day + "/" + (month + 1) + "/" + year + " " + hourOfDay + ":" + minute);
+            }
+        }, Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), false);
+
+        timePickerDialog.show();
     }
     public class LoadWatchlistsTask extends AsyncTask<Void, Void, List<String>> {
         private Context context;
