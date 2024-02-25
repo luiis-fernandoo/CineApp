@@ -2,21 +2,19 @@ package com.example.cineapp.Activities.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
+import android.content.Intent;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+
 import com.example.cineapp.Activities.Adapter.Adapter;
 import com.example.cineapp.Activities.Decoration.ItemDecoration;
 import com.example.cineapp.Activities.Helpers.MyAsyncTask;
@@ -30,13 +28,13 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements MyAsyncTask.AsyncTaskListener {
 
-    Button createWatchList;
-    Button perfil;
+    Button perfil, notify, createWatchList;
     TextView textViewTeste;
     ConstraintLayout constraintLayout;
     private RecyclerView recyclerView;
     private Adapter adapter;
     private List<String> cardList;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +45,7 @@ public class HomeActivity extends AppCompatActivity implements MyAsyncTask.Async
         createWatchList = findViewById(R.id.createWatchList);
         perfil = findViewById(R.id.perfil);
         textViewTeste = findViewById(R.id.textViewTeste);
+        notify = findViewById(R.id.notify);
 
         MyAsyncTask myAsyncTask = new MyAsyncTask(this);
         myAsyncTask.execute();
@@ -54,7 +53,6 @@ public class HomeActivity extends AppCompatActivity implements MyAsyncTask.Async
         perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent it = new Intent(HomeActivity.this, MainUserActivity.class);
                 startActivity(it);
             }
@@ -78,7 +76,7 @@ public class HomeActivity extends AppCompatActivity implements MyAsyncTask.Async
                 adapter = new Adapter((Context) this,  results);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                 recyclerView.setLayoutManager(layoutManager);
-                recyclerView.addItemDecoration(new ItemDecoration(16));  // Ajuste o espaçamento
+                recyclerView.addItemDecoration(new ItemDecoration(10));  // Ajuste o espaçamento
                 recyclerView.setAdapter(adapter);
             }else {
                 textViewTeste.setText("Nenhum resultado encontrado.");
@@ -86,9 +84,9 @@ public class HomeActivity extends AppCompatActivity implements MyAsyncTask.Async
             } catch(JSONException e){
                 e.printStackTrace();
             }
-        }
-        @Override
-        public void onTaskError(String error) {
+    }
+    @Override
+    public void onTaskError(String error) {
 
-        }
+    }
 }

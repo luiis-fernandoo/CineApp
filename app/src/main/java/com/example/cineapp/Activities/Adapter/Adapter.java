@@ -38,7 +38,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         try {
             JSONObject card = cardList.getJSONObject(position); // Obtenha o objeto JSON na posição especificada
-            Log.d("Teste", "Item " + position + " foi vinculado: " + card.toString());
             holder.bind(card);
         } catch (JSONException e) {
             throw new RuntimeException(e);
@@ -47,7 +46,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        Log.d("Teste counnt", "Item " + " foi vinculado." + cardList.length());
         return cardList.length();
     }
 

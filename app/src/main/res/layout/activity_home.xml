@@ -46,6 +46,7 @@
         android:layout_marginEnd="50dp"
         android:text="WatchList"
         app:layout_constraintEnd_toStartOf="@+id/perfil"
+        app:layout_constraintHorizontal_bias="0.13"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTeste" />
 
@@ -53,12 +54,10 @@
         android:id="@+id/perfil"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="123dp"
+        android:layout_marginEnd="24dp"
         android:text="Perfil"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/createWatchList"
         app:layout_constraintTop_toBottomOf="@+id/textViewTeste" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -75,4 +74,18 @@
         app:layout_constraintTop_toBottomOf="@+id/createWatchList"
         app:layout_constraintVertical_bias="0.6"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="103dp"
+        android:text="not"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        app:layout_constraintEnd_toStartOf="@+id/perfil"
+        app:layout_constraintStart_toEndOf="@+id/createWatchList"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTeste" />
 </androidx.constraintlayout.widget.ConstraintLayout>

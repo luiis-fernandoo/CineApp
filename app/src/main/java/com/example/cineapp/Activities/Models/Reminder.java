@@ -1,11 +1,9 @@
 package com.example.cineapp.Activities.Models;
 
-import java.util.Date;
-
 public class Reminder {
 
     private int id;
-    private Date date;
+    private String date;
     private int user_id;
     private int film_id;
 
@@ -17,11 +15,11 @@ public class Reminder {
         this.id = id;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
