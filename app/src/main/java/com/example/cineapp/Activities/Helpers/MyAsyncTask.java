@@ -2,11 +2,6 @@ package com.example.cineapp.Activities.Helpers;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.example.cineapp.Activities.Activities.HomeActivity;
-import com.example.cineapp.Activities.Activities.detailsFilmActivity;
-import com.google.firebase.database.core.Tag;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,11 +29,12 @@ public class MyAsyncTask extends AsyncTask<Void, Void, String> {
     @Override
         protected String doInBackground(Void... voids) {
             String url = null;
-            if (this.listener.getClass().getSimpleName().equals("HomeActivity")) {
-                url = "https://api.themoviedb.org/3/movie/popular?language=pt-BR";
+            if (this.listener.getClass().getSimpleName().equals("HomeFragment")) {
+                url = "https://api.themoviedb.org/3/movie/top_rated?language=pt-BR";
             } else if (this.listener.getClass().getSimpleName().equals("detailsFilmActivity")) {
                 url = "https://api.themoviedb.org/3/movie/"+filmId+"?language=pt-BR";
             }
+
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()

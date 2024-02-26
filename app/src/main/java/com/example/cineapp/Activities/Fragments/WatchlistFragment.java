@@ -17,8 +17,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.cineapp.Activities.Activities.CreateWatchList;
-import com.example.cineapp.Activities.Activities.HomeActivity;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
 import com.example.cineapp.Activities.Models.User;
@@ -116,13 +114,13 @@ public class WatchlistFragment extends Fragment {
                         if (watchlistDao.insertNewWatchList()) {
                             // Sucesso ao salvar no Firebase e no banco de dados local
                             Toast.makeText(requireActivity(), "WatchList criada com sucesso!", Toast.LENGTH_SHORT).show();
-                            Intent it = new Intent(requireActivity(), HomeActivity.class);
+                            Intent it = new Intent(requireActivity(), HomeFragment.class);
                             startActivity(it);
                         } else {
                             // Erro ao salvar no banco de dados local
                             Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
                         }
-                        Intent it = new Intent(requireActivity(), HomeActivity.class);
+                        Intent it = new Intent(requireActivity(), HomeFragment.class);
                         startActivity(it);
                     }
 

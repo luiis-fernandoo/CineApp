@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.cineapp.Activities.Activities.HomeActivity;
 import com.example.cineapp.Activities.DAO.LembreteDao;
 import com.example.cineapp.Activities.DAO.UserDao;
+import com.example.cineapp.Activities.Fragments.HomeFragment;
 import com.example.cineapp.Activities.Models.Reminder;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.R;
@@ -130,9 +130,9 @@ public class NotificationService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Crie uma intenção para abrir quando a notificação for clicada
-        Intent resultIntent = new Intent(context, HomeActivity.class);
+        Intent resultIntent = new Intent(context, HomeFragment.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(HomeActivity.class);
+        stackBuilder.addParentStack(HomeFragment.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
