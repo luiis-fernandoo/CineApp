@@ -14,8 +14,15 @@ public class Film {
     private String vote_average;
     private String overview;
     private int id;
+    private int film_id;
 
-    public Film(boolean adult, String backdrop_path, String original_language, String original_title, String poster_path, Date release_date, String title, String vote_average, String overview) {
+
+
+    public void setFilm_id(int film_id) {
+        this.film_id = film_id;
+    }
+
+    public Film(boolean adult, String backdrop_path, String original_language, String original_title, String poster_path, Date release_date, String title, String vote_average, String overview, int film_id) {
         this.adult = adult;
         this.backdrop_path = backdrop_path;
         this.original_language = original_language;
@@ -25,12 +32,15 @@ public class Film {
         this.title = title;
         this.vote_average = vote_average;
         this.overview = overview;
+        this.film_id = film_id;
     }
 
     public Film() {
 
     }
-
+    public int getFilm_id() {
+        return film_id;
+    }
     public boolean isAdult() {
         return adult;
     }

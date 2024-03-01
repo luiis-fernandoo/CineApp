@@ -1,6 +1,7 @@
 package com.example.cineapp.Activities.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,15 +9,22 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cineapp.Activities.Adapter.WatchListAdapter;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
 import com.example.cineapp.Activities.Models.User;
@@ -28,13 +36,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link WatchlistFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class WatchlistFragment extends Fragment {
-    Button btnWatchList;
+    Button btnWatchList, button_watchlist, watchlist_edit, watchlist_delete;
     TextView watchListName;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,6 +54,9 @@ public class WatchlistFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView recyclerView;
+    private WatchListAdapter adapter;
 
     public WatchlistFragment() {
         // Required empty public constructor
@@ -74,20 +88,67 @@ public class WatchlistFragment extends Fragment {
         }
     }
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "CutPasteId"})
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_watchlist, container, false);
+        SharedPreferences sp = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        String savedEmail = sp.getString("email", "");
 
-        btnWatchList = rootView.findViewById(R.id.btnWatchList);
+        User user = new User();
+        UserDao userDao = new UserDao(getContext(), user);
+        User userID = userDao.getUserNameID(savedEmail);
+        List<WatchList> watchlists = new ArrayList<>();
+        WatchList watchList = new WatchList();
+        WatchlistDao watchlistDao = new WatchlistDao(getContext(), watchList);
+        watchlists = watchlistDao.getAllWatchList(userID);
+
+        recyclerView = rootView.findViewById(R.id.recycler_view_watchlists);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new WatchListAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+
+        adapter.setWatchlists(watchlists);
+
         watchListName = rootView.findViewById(R.id.watchListName);
+        button_watchlist = rootView.findViewById(R.id.button_watchlist);
+        watchlist_edit = rootView.findViewById(R.id.button_watchlist);
+        watchlist_delete = rootView.findViewById(R.id.button_watchlist);
 
-        btnWatchList.setOnClickListener(new View.OnClickListener() {
+        button_watchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                popup_add(view);
+            }
+        });
+        return rootView;
+    }
 
-                String nameWatchList = watchListName.getText().toString();
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
+    }
+
+    public void popup_add(View view){
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View popupView = inflater.inflate(R.layout.popup_add_watchlist, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        alertDialogBuilder.setView(popupView);
+
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+        Button buttonOk = popupView.findViewById(R.id.button_ok);
+        buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editTextInput = popupView.findViewById(R.id.editText_input);
+                String nameWatchList = editTextInput.getText().toString();
+
                 SharedPreferences sp = requireActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
                 String savedEmail = sp.getString("email", "");
 
@@ -101,7 +162,7 @@ public class WatchlistFragment extends Fragment {
                 DatabaseReference newItem = tableWatchList.push();
 
                 newItem.child("name").setValue(nameWatchList);
-                newItem.child("user_id").setValue(userId);
+                newItem.child("user_id").setValue(user);
                 newItem.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -114,16 +175,13 @@ public class WatchlistFragment extends Fragment {
                         if (watchlistDao.insertNewWatchList()) {
                             // Sucesso ao salvar no Firebase e no banco de dados local
                             Toast.makeText(requireActivity(), "WatchList criada com sucesso!", Toast.LENGTH_SHORT).show();
-                            Intent it = new Intent(requireActivity(), HomeFragment.class);
-                            startActivity(it);
+                            replaceFragment(new HomeFragment());
                         } else {
                             // Erro ao salvar no banco de dados local
                             Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
                         }
-                        Intent it = new Intent(requireActivity(), HomeFragment.class);
-                        startActivity(it);
-                    }
 
+                    }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         // Ocorreu um erro ao salvar no Firebase
@@ -131,9 +189,11 @@ public class WatchlistFragment extends Fragment {
                         Toast.makeText(requireActivity(), "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                alertDialog.dismiss();
             }
         });
 
-        return rootView;
     }
 }
+

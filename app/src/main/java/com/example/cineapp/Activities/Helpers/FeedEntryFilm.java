@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 public class FeedEntryFilm implements BaseColumns {
     public String TABLE_NAME = "film";
     public String COLUMN_NAME_TITLE = "title";
+    public String COLUMN_NAME_FILM_ID0 = "film_id";
     public String COLUMN_NAME_BACKDROP_PATH = "backdrop_path";
     public Boolean COLUMN_NAME_ADULT = Boolean.valueOf("adult");
     public String COLUMN_NAME_ORIGINAL_LANGUAGE = "original_language";

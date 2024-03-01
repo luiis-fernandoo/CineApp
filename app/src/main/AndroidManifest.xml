@@ -18,12 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CineApp"
         tools:targetApi="31">
-        <receiver android:name=".Activities.Broadcast.BroadCast"
+        <activity
+            android:name=".Activities.Activities.DetailsWatchlistActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name=".Activities.Broadcast.BroadCast"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".Activities.Activities.MainActivityMenu"
             android:exported="false" />
@@ -34,13 +40,11 @@
             android:name=".Activities.Activities.detailsFilmActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.Activities.CreateWatchList"
-            android:exported="false" />
-        <activity
             android:name=".Activities.Activities.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

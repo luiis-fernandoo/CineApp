@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.example.cineapp.Activities.Helpers.FeedEntry;
 import com.example.cineapp.Activities.Helpers.FeedEntryWatchlist;
+import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
 
@@ -91,6 +92,62 @@ public class WatchlistDao {
 
         return watchlist;
 
+    }
+
+    @SuppressLint("Range")
+    public WatchList getWatchlistID(int user_id){
+        SQLiteDatabase db = this.db.getReadableDatabase();
+
+        String sql = "Select * From watchlist Where user_id = '"+ user_id +"';";
+        WatchList watchlist = new WatchList();
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            watchlist.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            watchlist.setName(cursor.getString(cursor.getColumnIndex("name")));
+            watchlist.setUser_id(cursor.getInt(cursor.getColumnIndex("user_id")));
+        }
+        cursor.close();
+        db.close();
+
+        return watchlist;
+    }
+
+    public boolean updateWatchlist(int watchlistId, String name){
+        SQLiteDatabase db = this.db.getWritableDatabase();
+        try {
+            ContentValues values = new ContentValues();
+            values.put("name", name);
+            String whereClause = "_id = ?";
+            String[] whereArgs = {String.valueOf(watchlistId)};
+
+            long resultado = db.update("watchlist", values, whereClause, whereArgs);
+            db.close();
+
+            return resultado != -1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    public boolean deleteWatchList(int watchlistId, Context context){
+        try {
+            SQLiteDatabase dbLite = this.db.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            long resultado = dbLite.delete("watchlist", "_id = ?", new String[]{String.valueOf(watchlistId)});
+            db.close();
+            SaveList saveList = new SaveList();
+            SaveListDAO saveListDAO = new SaveListDAO(context, saveList);
+            saveListDAO.deleteSaveList(watchlistId);
+            return resultado != -1;
+        } catch (Exception e) {
+            Log.e("Test", "Erro ao deletar na tabela watchlist: " + e.getMessage());
+            return false;
+        }
     }
 
 }

@@ -4,80 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background"
     tools:context=".Activities.Fragments.WatchlistFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <View
-            android:id="@+id/containerUser"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/container_user"
-            app:layout_constraintStart_toStartOf="parent"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_watchlists"
+            android:layout_width="307dp"
+            android:layout_height="216dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_watchlist"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/ic_user"
-            app:layout_constraintStart_toStartOf="@+id/containerUser"
-            app:layout_constraintEnd_toEndOf="@+id/containerUser"
-            app:layout_constraintTop_toTopOf="@+id/containerUser"
-            app:layout_constraintBottom_toBottomOf="@+id/containerUser"
-            />
+            app:layout_constraintHorizontal_bias="0.451"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.183" />
 
         <TextView
-            android:id="@+id/title_cadastre_se"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="200dp"
-            android:fontFamily="sans-serif-condensed"
-            android:text="Nome da WatchList"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:layout_marginStart="172dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="189dp"
+            android:layout_marginBottom="55dp"
+            android:text="WatchLists"
+            android:textSize="26sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/containerComponents2"
-            style="@style/ContainerComponents2"
-            android:layout_width="366dp"
-            android:layout_height="132dp"
-            android:layout_marginTop="20dp"
-
+        <Button
+            android:id="@+id/button_watchlist"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginEnd="120dp"
+            android:layout_marginBottom="229dp"
+            android:text="Adicionar Watchlist"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_cadastre_se" />
-
-        <EditText
-            android:id="@+id/watchListName"
-            style="@style/Edit_Text"
-            android:layout_marginTop="36dp"
-            android:hint="Nome"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="@id/containerComponents2"
-            app:layout_constraintHorizontal_bias="0.485"
-            app:layout_constraintStart_toStartOf="@id/containerComponents2"
-            app:layout_constraintTop_toTopOf="@id/containerComponents2" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnWatchList"
-            style="@style/Button"
-            android:layout_marginTop="30dp"
-            android:text="Salvar"
-            app:layout_constraintTop_toBottomOf="@+id/containerComponents2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-            />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
