@@ -38,10 +38,11 @@
                 android:layout_marginTop="27dp"
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTeste2"
-                tools:layout_editor_absoluteX="13dp">
+                tools:layout_editor_absoluteX="13dp"
+                tools:ignore="MissingConstraints">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView3"
+                    android:id="@+id/recyclerViewPopular"
                     android:layout_width="match_parent"
                     android:layout_height="160dp" />
             </LinearLayout>
@@ -182,10 +183,11 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/textViewTeste2"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTeste1"
-                tools:layout_editor_absoluteX="18dp">
+                tools:layout_editor_absoluteX="18dp"
+                tools:ignore="MissingConstraints">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                    android:id="@+id/recyclerViewTopRated"
                     android:layout_width="match_parent"
                     android:layout_height="160dp" />
 
@@ -223,7 +225,7 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView2"
+                    android:id="@+id/recyclerViewUpComing"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     tools:ignore="MissingConstraints" />

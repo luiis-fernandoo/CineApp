@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,9 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
     Button perfil;
     ConstraintLayout constraintLayout;
     TextView textViewTeste;
-    private RecyclerView recyclerView;
-    private Adapter adapter;
+    private RecyclerView recyclerViewTopRated, recyclerViewPopular, recyclerViewUpComing;
     private List<String> cardList;
+    private String reference;
     View view;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,24 +85,49 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
         createWatchList = view.findViewById(R.id.createWatchList);
         perfil = view.findViewById(R.id.perfil);
         textViewTeste = view.findViewById(R.id.textViewTeste);
-        recyclerView = view.findViewById(R.id.recyclerView);
-        MyAsyncTask myAsyncTask = new MyAsyncTask(this);
-        myAsyncTask.execute();
+        recyclerViewTopRated = view.findViewById(R.id.recyclerViewTopRated);
+        recyclerViewPopular = view.findViewById(R.id.recyclerViewPopular);
+        recyclerViewUpComing = view.findViewById(R.id.recyclerViewUpComing);
+
+        String urlPopular = "https://api.themoviedb.org/3/movie/popular?language=pt_BR";
+        reference = "Popular";
+        MyAsyncTask myAsyncTaskPopular = new MyAsyncTask(this, urlPopular, reference);
+        myAsyncTaskPopular.execute();
+
+        String urlUpComing = "https://api.themoviedb.org/3/movie/upcoming?language=pt_BR";
+        reference = "UpComing";
+        MyAsyncTask myAsyncTaskUpComing = new MyAsyncTask(this, urlUpComing, reference);
+        myAsyncTaskUpComing.execute();
+
+        String urlTopRated = "https://api.themoviedb.org/3/movie/top_rated?language=pt_BR";
+        reference = "TopRated";
+        MyAsyncTask myAsyncTaskTopRated = new MyAsyncTask(this, urlTopRated, reference);
+        myAsyncTaskTopRated.execute();
 
         return view;
     }
 
     @Override
-    public void onTaskComplete(JSONObject result) {
+    public void onTaskComplete(JSONObject result, String reference) {
         try {
             JSONArray results = result.getJSONArray("results");
             if (results.length() > 0) {
 
-                adapter = new Adapter(requireContext(),  results);
+                Adapter adapter = new Adapter(requireContext(), results);
                 LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.addItemDecoration(new ItemDecoration(10));  // Ajuste o espaçamento
-                recyclerView.setAdapter(adapter);
+                if(reference.equals("Popular")){
+                    recyclerViewPopular.setLayoutManager(layoutManager);
+                    recyclerViewPopular.addItemDecoration(new ItemDecoration(10));
+                    recyclerViewPopular.setAdapter(adapter);
+                }else if(reference.equals("UpComing")){
+                    recyclerViewUpComing.setLayoutManager(layoutManager);
+                    recyclerViewUpComing.addItemDecoration(new ItemDecoration(10));
+                    recyclerViewUpComing.setAdapter(adapter);
+                } else if(reference.equals("TopRated")) {
+                    recyclerViewTopRated.setLayoutManager(layoutManager);
+                    recyclerViewTopRated.addItemDecoration(new ItemDecoration(10));  // Ajuste o espaçamento
+                    recyclerViewTopRated.setAdapter(adapter);
+                }
             }else {
                 textViewTeste.setText("Nenhum resultado encontrado.");
             }

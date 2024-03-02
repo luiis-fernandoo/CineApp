@@ -2,6 +2,7 @@ package com.example.cineapp.Activities.Helpers;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,13 +15,21 @@ import okhttp3.Response;
 
 public class MyAsyncTask extends AsyncTask<Void, Void, String> {
     private AsyncTaskListener listener;
-    private String filmId;
-    private Activity mActivity;
+    private String url, reference;
 
-    public MyAsyncTask(AsyncTaskListener listener, String filmId) {
+    private int filmId;
+
+    public MyAsyncTask(AsyncTaskListener listener, int filmId) {
         this.listener = listener;
         this.filmId = filmId;
     }
+
+    public MyAsyncTask(AsyncTaskListener listener, String url, String reference) {
+        this.listener = listener;
+        this.url = url;
+        this.reference = reference;
+    }
+
 
     public MyAsyncTask(AsyncTaskListener listener) {
         this.listener = listener;
@@ -28,17 +37,14 @@ public class MyAsyncTask extends AsyncTask<Void, Void, String> {
 
     @Override
         protected String doInBackground(Void... voids) {
-            String url = null;
-            if (this.listener.getClass().getSimpleName().equals("HomeFragment")) {
-                url = "https://api.themoviedb.org/3/movie/top_rated?language=pt-BR";
-            } else if (this.listener.getClass().getSimpleName().equals("detailsFilmActivity")) {
-                url = "https://api.themoviedb.org/3/movie/"+filmId+"?language=pt-BR";
+            if (this.listener.getClass().getSimpleName().equals("detailsFilmActivity")) {
+                this.url = "https://api.themoviedb.org/3/movie/"+filmId+"?language=pt-BR";
             }
 
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(this.url)
                     .get()
                     .addHeader("accept", "application/json")
                     .addHeader("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNTc0YmRkOGM5ZTg4MTQxNGM0NzI2YmRlMTgxYTEyNyIsInN1YiI6IjY1OWZkZDhkOGRlMGFlMDEyNThjMmVkZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.VG61EHZUYapdl2lk_rnun2DQK7y25nz5C8Q1WqJFyhY")
@@ -53,13 +59,12 @@ public class MyAsyncTask extends AsyncTask<Void, Void, String> {
                 return "Erro de rede: " + e.getMessage();
             }
         }
-
         @Override
         protected void onPostExecute(String result) {
             try {
                 JSONObject json = new JSONObject(result);
                 if (listener != null) {
-                    listener.onTaskComplete(json);
+                    listener.onTaskComplete(json, this.reference);
                 }
             } catch (JSONException e) {
                 // Lidar com erros de análise JSON
@@ -70,7 +75,7 @@ public class MyAsyncTask extends AsyncTask<Void, Void, String> {
             }
         }
         public interface AsyncTaskListener {
-            void onTaskComplete(JSONObject result) throws JSONException;
+            void onTaskComplete(JSONObject result, String reference) throws JSONException;
             void onTaskError(String error);
         }
 }

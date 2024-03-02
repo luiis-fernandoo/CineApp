@@ -74,14 +74,14 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         addLembrete = findViewById(R.id.addLembrete);
 
         Intent it = getIntent();
-        String tag = it.getStringExtra("tag");
+        int tag = Integer.parseInt(it.getStringExtra("tag"));
 
         MyAsyncTask myAsyncTask = new MyAsyncTask(this, tag);
         myAsyncTask.execute();
 
     }
 
-    public void onTaskComplete(JSONObject result){
+    public void onTaskComplete(JSONObject result, String reference){
         try {
             if (result.length() > 0) {
                 try {
@@ -170,6 +170,8 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
             e.printStackTrace();
         }
     }
+
+    @Override
 
     public void onTaskError(String error) {
 
