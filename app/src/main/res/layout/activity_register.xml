@@ -34,15 +34,19 @@
         android:id="@+id/watchListName"
         style="@style/Edit_Text"
         android:hint="Nome"
+        android:textColorHint="@color/black"
+
         android:inputType="text"
         app:layout_constraintStart_toStartOf="@id/containerComponents2"
         app:layout_constraintEnd_toEndOf="@id/containerComponents2"
         app:layout_constraintTop_toTopOf="@id/containerComponents2"
         />
     <EditText
+
         android:id="@+id/edit_email"
         style="@style/Edit_Text"
         android:hint="Email"
+        android:textColorHint="@color/black"
         android:drawableRight="@drawable/ic_email"
         android:inputType="textEmailAddress"
         app:layout_constraintTop_toBottomOf="@+id/edit_CPF"
@@ -54,17 +58,21 @@
         android:id="@+id/edit_CPF"
         style="@style/Edit_Text"
         android:hint="CPF"
+        android:textColorHint="@color/black"
+
         android:inputType="textCapCharacters"
         app:layout_constraintTop_toBottomOf="@+id/watchListName"
         app:layout_constraintStart_toStartOf="@id/containerComponents2"
         app:layout_constraintEnd_toEndOf="@id/containerComponents2"
 
-        />
+    />
 
     <EditText
         android:id="@+id/edit_senha"
         style="@style/Edit_Text"
         android:hint="Senha"
+        android:textColorHint="@color/black"
+
         android:drawableRight="@drawable/ic_eye"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@id/containerComponents2"
@@ -76,11 +84,11 @@
         android:id="@+id/bt_cadastro"
         style="@style/Button"
         android:layout_marginTop="30dp"
+        android:background="#100F0F"
         android:text="@string/cadastrar"
-        app:layout_constraintTop_toBottomOf="@+id/containerComponents2"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
 
-        />
+        app:layout_constraintTop_toBottomOf="@+id/containerComponents2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
