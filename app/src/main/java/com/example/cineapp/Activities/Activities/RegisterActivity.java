@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -50,6 +51,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUserOnFirebase(String email, String senha, User newUser) {
+        if (!isValidEmail(email)) {
+            Toast.makeText(RegisterActivity.this, "O endereço de e-mail é inválido.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (senha.length() < 6) {
+            Toast.makeText(RegisterActivity.this, "A senha deve ter pelo menos 6 caracteres.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         firebaseAuth.createUserWithEmailAndPassword(email, senha)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
@@ -76,6 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
 
     // Método para salvar o nome no SharedPreferences (fora do método onCreate)
     private void saveNameInSharedPreferences(String email, String senha, String nome, String cpf) {
