@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.cineapp.Activities.Helpers.FeedEntry;
 import com.example.cineapp.Activities.Helpers.FeedEntryLembrete;
 import com.example.cineapp.Activities.Models.Reminder;
+import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
 
@@ -70,8 +71,20 @@ public class LembreteDao {
         }
         cursor.close();
         db.close();
-
         return reminders;
+    }
 
+    public boolean deleteReminders(int reminderId){
+        try {
+            SQLiteDatabase dbLite = this.db.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            long resultado = dbLite.delete("reminder", "_id = ?", new String[]{String.valueOf(reminderId)});
+            db.close();
+            return resultado != -1;
+        } catch (Exception e) {
+            Log.e("Test", "Erro ao deletar na tabela reminder: " + e.getMessage());
+            return false;
+        }
     }
 }

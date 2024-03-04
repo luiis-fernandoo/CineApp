@@ -12,6 +12,7 @@ import com.example.cineapp.Activities.Helpers.FeedEntryFilm;
 import com.example.cineapp.Activities.Helpers.FeedEntrySaveList;
 import com.example.cineapp.Activities.Helpers.FeedEntryUser;
 import com.example.cineapp.Activities.Models.Film;
+import com.example.cineapp.Activities.Models.Reminder;
 import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
 
@@ -74,5 +75,21 @@ public class FilmDao {
         }
         db.close();
         return films;
+    }
+
+    @SuppressLint("Range")
+    public Film getFilmById(int film_id){
+        SQLiteDatabase db = this.db.getReadableDatabase();
+        String sql = "Select * From film Where film_id = '"+ film_id +"';";
+        Film film = new Film();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            film.setFilm_id(cursor.getInt(cursor.getColumnIndex("film_id")));
+            film.setTitle(cursor.getString(cursor.getColumnIndex("title")));
+            film.setBackdrop_path(cursor.getString(cursor.getColumnIndex("backdrop_path")));
+        }
+        cursor.close();
+        db.close();
+        return film;
     }
 }

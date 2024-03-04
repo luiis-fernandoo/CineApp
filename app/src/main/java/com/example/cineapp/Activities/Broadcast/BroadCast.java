@@ -5,13 +5,15 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
 import com.example.cineapp.Activities.Service.NotificationService;
 
-public class BroadCast  extends BroadcastReceiver {
+public class BroadCast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
             Intent serviceIntent = new Intent(context, NotificationService.class);
             ComponentName componentName = context.startService(serviceIntent);
             if (componentName != null) {
@@ -24,3 +26,5 @@ public class BroadCast  extends BroadcastReceiver {
         }
     }
 }
+
+

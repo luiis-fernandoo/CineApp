@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.RemoteInput;
 import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
@@ -15,14 +16,23 @@ import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.example.cineapp.Activities.Activities.DetailsWatchlistActivity;
+import com.example.cineapp.Activities.DAO.FilmDao;
 import com.example.cineapp.Activities.DAO.LembreteDao;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.Fragments.HomeFragment;
+import com.example.cineapp.Activities.Models.Film;
 import com.example.cineapp.Activities.Models.Reminder;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,12 +43,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class NotificationService extends Service {
-    private static final long INTERVALO_VERIFICACAO = 30 * 1000; // Verificar a cada minuto
+    private static final long INTERVALO_VERIFICACAO = 60 * 1000; // Verificar a cada minuto
     private Timer timer;
     private Handler handler = new Handler();
     private static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_ID = "channel_id";
-    private static final String CHANNEL_NAME = "Channel Name";
+    private static final String CHANNEL_NAME = "Channel Notification";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -56,6 +66,7 @@ public class NotificationService extends Service {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+
                 SharedPreferences sp = getSharedPreferences("app", Context.MODE_PRIVATE);
                 String savedEmail = sp.getString("email", "");
 
@@ -66,36 +77,28 @@ public class NotificationService extends Service {
                 LembreteDao lembreteDao = new LembreteDao(getApplicationContext(), reminder);
                 List<Reminder> reminders = lembreteDao.getAllLembretes(userID);
 
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-                Log.d("Hora", "Fora do for"+reminders.get(0));
-                try {
-                    for (int i=0;i<reminders.size();i++){
-                        Date dataHora = formato.parse(String.valueOf(reminders.get(i)));
-                        Calendar calendarString = Calendar.getInstance();
-                        assert dataHora != null;
-                        calendarString.setTime(dataHora);
+                for(Reminder remind : reminders){
+                    Date currentDate = new Date(); // Data atual
+                    Date reminderDate = convertStringToDate(remind.getDate());// Data do lembrete do banco de dados
+                    Log.d("", "Current "+ currentDate);
+                    Log.d("", "reminder "+ reminderDate);
+                    Film film = new Film();
+                    FilmDao filmDao = new FilmDao(getApplicationContext(), film);
+                    Film filmNotification = filmDao.getFilmById(remind.getFilm_id());
+                    if (reminderDate != null && currentDate.compareTo(reminderDate) >= 0) {
 
-                        // Obtém a hora atual do dispositivo
-                        Calendar calendarAtual = Calendar.getInstance();
-                        Log.d("Hora", "Calendario Da hora atual "+calendarAtual.get(Calendar.HOUR_OF_DAY));
-                        Log.d("Hora", "Minha Hora "+calendarString.get(Calendar.HOUR_OF_DAY));
-                        // Verifica se a hora, o minuto e o segundo do dispositivo são iguais aos da string de data
-                        if(calendarAtual.get(Calendar.HOUR_OF_DAY) == calendarString.get(Calendar.HOUR_OF_DAY)
-                                && calendarAtual.get(Calendar.MINUTE) == calendarString.get(Calendar.MINUTE)){
-                            Log.d("Hora", "A hora do dispositivo é igual à hora da string de data."+ calendarString);
-                            createNotificationChannel();
-                            sendNotification(getApplicationContext());
-                        }else {
-                            Log.d("Hora", "A hora do dispositivo não é igual à hora da string de data."+ calendarString);
-                        }
+                        createNotificationChannel();
+                        sendNotification(getApplicationContext(), userID, filmNotification);
+                        lembreteDao.deleteReminders(remind.getId());
+                        Log.d("", "Datas iguais");
+                    } else {
+                        Log.d("", "Datas diferentes");
                     }
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
                 }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(NotificationService.this, "Verificando hora...", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(NotificationService.this, "Verificando hora...", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -121,27 +124,37 @@ public class NotificationService extends Service {
         }
     }
 
-    private void sendNotification(Context context) {
+    private void sendNotification(Context context, User user, Film film) {
         // Crie uma notificação
+        Log.d("Hora", "Run send.");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
                 .setSmallIcon(R.drawable.cineapp)
                 .setContentTitle("CineApp")
-                .setContentText("Hora de assistir seu filme")
+                .setContentText("Hora de assistir " + film.getTitle() + ", " + user.getNome())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Crie uma intenção para abrir quando a notificação for clicada
-        Intent resultIntent = new Intent(context, HomeFragment.class);
+        Intent resultIntent = new Intent(context, DetailsWatchlistActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(HomeFragment.class);
+        stackBuilder.addParentStack(DetailsWatchlistActivity.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
                 PendingIntent.FLAG_UPDATE_CURRENT
         );
         builder.setContentIntent(resultPendingIntent);
-
         // Emita a notificação
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
+
+    private Date convertStringToDate(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null; // Ou trate o erro de acordo com sua lógica de negócio
+        }
     }
 }
