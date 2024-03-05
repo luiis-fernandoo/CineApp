@@ -95,10 +95,10 @@ public class WatchlistDao {
     }
 
     @SuppressLint("Range")
-    public WatchList getWatchlistID(int user_id){
+    public WatchList getWatchlistID(String watchlist_id){
         SQLiteDatabase db = this.db.getReadableDatabase();
 
-        String sql = "Select * From watchlist Where user_id = '"+ user_id +"';";
+        String sql = "Select * From watchlist Where _id = '"+ watchlist_id +"';";
         WatchList watchlist = new WatchList();
 
         Cursor cursor = db.rawQuery(sql, null);

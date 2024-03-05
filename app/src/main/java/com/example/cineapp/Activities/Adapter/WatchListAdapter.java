@@ -3,6 +3,7 @@ package com.example.cineapp.Activities.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
                     @Override
                     public void onClick(View view) {;
                         Intent it = new Intent(context, DetailsWatchlistActivity.class);
-                        it.putExtra("watchlist_id", watchList.getId());
+                        it.putExtra("watchlist_id", String.valueOf(watchList.getId()));
                         context.startActivity(it);
                     }
                 });

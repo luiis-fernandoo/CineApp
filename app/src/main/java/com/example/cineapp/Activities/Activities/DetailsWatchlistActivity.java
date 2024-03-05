@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +59,9 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
         edit_watchlist = findViewById(R.id.edit_watchlist);
         delete_watchlist = findViewById(R.id.delete_watchlist);
 
+        Intent it = getIntent();
+        String watchlist_id = it.getStringExtra("watchlist_id");
+        Log.d("" ,"Watchlist_id"+watchlist_id);
         SharedPreferences sp = getSharedPreferences("app", Context.MODE_PRIVATE);
         String savedEmail = sp.getString("email", "");
 
@@ -67,14 +71,14 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
 
         WatchList watchList = new WatchList();
         WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), watchList);
-        watchList = watchlistDao.getWatchlistID(userID.getId());
+        watchList = watchlistDao.getWatchlistID(watchlist_id);
         SaveList saveList = new SaveList();
         SaveListDAO saveListDAO = new SaveListDAO(getApplicationContext(), saveList);
         List<SaveList> saveLists = saveListDAO.getSaveListByUserAndWatchlist(userID.getId(), watchList.getId());
         Film film = new Film();
         FilmDao filmDao = new FilmDao(getApplicationContext(), film);
         List<Film> films = filmDao.getFilmBySaveList(saveLists);
-
+        Log.d("" ,"Watchlist "+watchList.getName());
         recyclerView = findViewById(R.id.recycleViewFilm);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new FilmsAdapter(getApplicationContext());
@@ -87,7 +91,6 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(watchlistDao.deleteWatchList(finalWatchList.getId(), getApplicationContext())){
                     Toast.makeText(DetailsWatchlistActivity.this, "Deletado com sucesso", Toast.LENGTH_SHORT).show();
-
                 }else{
                     Toast.makeText(DetailsWatchlistActivity.this, "Falha para deletar", Toast.LENGTH_SHORT).show();
                 }

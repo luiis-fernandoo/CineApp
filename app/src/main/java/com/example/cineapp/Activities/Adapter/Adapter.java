@@ -46,7 +46,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
 
     @Override
     public int getItemCount() {
-        return cardList.length();
+        return 10;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -61,7 +61,6 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
             try {
                 String filmId = card.getString("id");
                 imageView.setTag(filmId);
-
                 String poster_path = "https://image.tmdb.org/t/p/original/" + card.getString("poster_path");
                 Glide.with(itemView.getContext())
                         .load(poster_path)

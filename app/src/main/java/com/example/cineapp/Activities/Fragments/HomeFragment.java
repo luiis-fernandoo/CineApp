@@ -45,7 +45,7 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
     Button perfil;
     ConstraintLayout constraintLayout;
     TextView textViewTeste;
-    private RecyclerView recyclerViewTopRated, recyclerViewPopular, recyclerViewUpComing;
+    private RecyclerView recyclerViewTopRated, recyclerViewPopular, recyclerViewUpComing,recyclerViewTerror ,recyclerViewComedia, recyclerViewAnimacao, recyclerViewFiccao, recyclerViewRomance;
     private List<String> cardList;
     private String reference;
     View view;
@@ -101,15 +101,22 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
         recyclerViewTopRated = view.findViewById(R.id.recyclerViewTopRated);
         recyclerViewPopular = view.findViewById(R.id.recyclerViewPopular);
         recyclerViewUpComing = view.findViewById(R.id.recyclerViewUpComing);
+        recyclerViewComedia = view.findViewById(R.id.recyclerViewComedia);
+        recyclerViewTerror = view.findViewById(R.id.recyclerViewTerror);
+        recyclerViewRomance = view.findViewById(R.id.recyclerViewRomance);
+        recyclerViewFiccao = view.findViewById(R.id.recyclerViewFiccao);
+        recyclerViewAnimacao = view.findViewById(R.id.recyclerViewAnimacao);
 
-        BroadCast broadCast = new BroadCast();
 
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        context.registerReceiver(broadCast, filter);
+        //BroadCast broadCast = new BroadCast();
+
+//        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+//        context.registerReceiver(broadCast, filter);
 //        WorkManager workManager = WorkManager.getInstance(context);
 //        workManager.enqueueUniquePeriodicWork("my_work", ExistingPeriodicWorkPolicy.KEEP,
 //                new PeriodicWorkRequest.Builder(MyWorker.class, 1, TimeUnit.MINUTES)
 //                        .build());
+        loadMoviesInBackground();
         return view;
     }
 
@@ -119,7 +126,6 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
             try {
                 JSONArray results = result.getJSONArray("results");
                 if (results.length() > 0) {
-
                     Adapter adapter = new Adapter(requireContext(), results);
                     LinearLayoutManager layoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false);
                     if (reference.equals("Popular")) {
@@ -132,8 +138,28 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
                         recyclerViewUpComing.setAdapter(adapter);
                     } else if (reference.equals("TopRated")) {
                         recyclerViewTopRated.setLayoutManager(layoutManager);
-                        recyclerViewTopRated.addItemDecoration(new ItemDecoration(10));  // Ajuste o espaçamento
+                        recyclerViewTopRated.addItemDecoration(new ItemDecoration(10));
                         recyclerViewTopRated.setAdapter(adapter);
+                    }else if (reference.equals("Terror")) {
+                        recyclerViewTerror.setLayoutManager(layoutManager);
+                        recyclerViewTerror.addItemDecoration(new ItemDecoration(10));
+                        recyclerViewTerror.setAdapter(adapter);
+                    }else if (reference.equals("Comedia")) {
+                        recyclerViewComedia.setLayoutManager(layoutManager);
+                        recyclerViewComedia.addItemDecoration(new ItemDecoration(10));
+                        recyclerViewComedia.setAdapter(adapter);
+                    }else if (reference.equals("Romance")) {
+                        recyclerViewRomance.setLayoutManager(layoutManager);
+                        recyclerViewRomance.addItemDecoration(new ItemDecoration(10));
+                        recyclerViewRomance.setAdapter(adapter);
+                    }else if (reference.equals("Ficcao")) {
+                        recyclerViewFiccao.setLayoutManager(layoutManager);
+                        recyclerViewFiccao.addItemDecoration(new ItemDecoration(10));
+                        recyclerViewFiccao.setAdapter(adapter);
+                    }else if (reference.equals("Animacao")) {
+                        recyclerViewAnimacao.setLayoutManager(layoutManager);
+                        recyclerViewAnimacao.addItemDecoration(new ItemDecoration(10));
+                        recyclerViewAnimacao.setAdapter(adapter);
                     }
                 } else {
                     textViewTeste.setText("Nenhum resultado encontrado.");
@@ -166,6 +192,31 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
                 reference = "TopRated";
                 MyAsyncTask myAsyncTaskTopRated = new MyAsyncTask(HomeFragment.this, urlTopRated, reference);
                 myAsyncTaskTopRated.execute();
+
+                String urlTerror = "https://api.themoviedb.org/3/discover/movie?with_genres=27&language=pt-BR";
+                reference = "Terror";
+                MyAsyncTask myAsyncTaskTerror = new MyAsyncTask(HomeFragment.this, urlTerror, reference);
+                myAsyncTaskTerror.execute();
+
+                String urlComedia = "https://api.themoviedb.org/3/discover/movie?with_genres=35&language=pt-BR";
+                reference = "Comedia";
+                MyAsyncTask myAsyncTaskComedia = new MyAsyncTask(HomeFragment.this, urlComedia, reference);
+                myAsyncTaskComedia.execute();
+
+                String urlRomance = "https://api.themoviedb.org/3/discover/movie?with_genres=10749&language=pt-BR";
+                reference = "Romance";
+                MyAsyncTask myAsyncTaskRomance = new MyAsyncTask(HomeFragment.this, urlRomance, reference);
+                myAsyncTaskRomance.execute();
+
+                String urlFiccao = "https://api.themoviedb.org/3/discover/movie?with_genres=878&language=pt-BR";
+                reference = "Ficcao";
+                MyAsyncTask myAsyncTaskFiccao = new MyAsyncTask(HomeFragment.this, urlFiccao, reference);
+                myAsyncTaskFiccao.execute();
+
+                String urlAnimacao = "https://api.themoviedb.org/3/discover/movie?with_genres=16&language=pt-BR";
+                reference = "Animacao";
+                MyAsyncTask myAsyncTaskAnimacao = new MyAsyncTask(HomeFragment.this, urlAnimacao, reference);
+                myAsyncTaskAnimacao.execute();
             }
         }).start();
     }

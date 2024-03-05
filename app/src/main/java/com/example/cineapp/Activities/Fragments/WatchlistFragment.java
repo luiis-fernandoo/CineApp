@@ -183,7 +183,7 @@ public class WatchlistFragment extends Fragment {
                                     if (watchlistDao.insertNewWatchList()) {
                                         // Sucesso ao salvar no Firebase e no banco de dados local
                                         Toast.makeText(requireActivity(), "WatchList criada com sucesso!", Toast.LENGTH_SHORT).show();
-                                        replaceFragment(new HomeFragment());
+                                        replaceFragment(new WatchlistFragment());
                                     } else {
                                         // Erro ao salvar no banco de dados local
                                         Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
@@ -209,5 +209,6 @@ public class WatchlistFragment extends Fragment {
             }
         });
     }
+
 }
 

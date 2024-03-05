@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="164dp"
-        android:layout_height="189dp"
+        android:layout_width="146dp"
+        android:layout_height="171dp"
         app:srcCompat="@drawable/madame_teia_poster" />
 
 </LinearLayout>
