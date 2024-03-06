@@ -8,12 +8,12 @@
         android:id="@+id/home"/>
     <item
         android:id="@+id/watch"
-        android:title="Watchlist"
+        android:title="Watchlists"
         android:iconTint="@color/red_end"
         android:icon="@drawable/baseline_live_tv_24"/>
     <item
         android:id="@+id/lembrete"
-        android:title="Lembrete"
+        android:title="Lembretes"
         android:iconTint="@color/red_end"
         android:icon="@drawable/baseline_access_alarm_24"/>
     <item
