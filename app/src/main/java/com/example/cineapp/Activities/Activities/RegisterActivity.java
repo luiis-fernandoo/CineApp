@@ -16,6 +16,8 @@ import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -65,11 +67,18 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                        String userID = firebaseUser.getUid();
+                        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
+                        DatabaseReference newItem = usersRef.push();
+                        newItem.child("user_id").setValue(userID);
+                        newItem.child("email").setValue(email);
+                        newItem.child("nome").setValue(newUser.getNome());
+                        newItem.child("cpf").setValue(newUser.getCpf());
+
                         // Se o registro no Firebase foi bem-sucedido, salva localmente e no banco
                         if (firebaseUser != null) {
                             // Salva o nome no SharedPreferences após o registro bem-sucedido
                             saveNameInSharedPreferences(email, senha, newUser.getNome(), newUser.getCpf());
-
                             // Inicia o UserDAO com o contexto e o novo usuário
                             userDAO = new UserDao(getApplicationContext(), newUser);
                             // Tenta inserir o novo usuário no banco de dados local

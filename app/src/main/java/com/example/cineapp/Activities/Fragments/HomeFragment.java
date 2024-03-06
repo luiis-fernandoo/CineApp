@@ -1,36 +1,28 @@
 package com.example.cineapp.Activities.Fragments;
 
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.BackoffPolicy;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.cineapp.Activities.Adapter.Adapter;
-import com.example.cineapp.Activities.Broadcast.BroadCast;
 import com.example.cineapp.Activities.Broadcast.MyWorker;
 import com.example.cineapp.Activities.Decoration.ItemDecoration;
 import com.example.cineapp.Activities.Helpers.MyAsyncTask;
-import com.example.cineapp.Activities.Service.NotificationService;
 import com.example.cineapp.R;
 
 import org.json.JSONArray;
@@ -107,15 +99,11 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
         recyclerViewFiccao = view.findViewById(R.id.recyclerViewFiccao);
         recyclerViewAnimacao = view.findViewById(R.id.recyclerViewAnimacao);
 
+        WorkManager workManager = WorkManager.getInstance(context);
+        workManager.enqueueUniquePeriodicWork("workNotificationService", ExistingPeriodicWorkPolicy.KEEP,
+                new PeriodicWorkRequest.Builder(MyWorker.class, 15, TimeUnit.MINUTES).setBackoffCriteria(BackoffPolicy.LINEAR, 60000, TimeUnit.MILLISECONDS)
+                .build());
 
-        //BroadCast broadCast = new BroadCast();
-
-//        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-//        context.registerReceiver(broadCast, filter);
-//        WorkManager workManager = WorkManager.getInstance(context);
-//        workManager.enqueueUniquePeriodicWork("my_work", ExistingPeriodicWorkPolicy.KEEP,
-//                new PeriodicWorkRequest.Builder(MyWorker.class, 1, TimeUnit.MINUTES)
-//                        .build());
         loadMoviesInBackground();
         return view;
     }

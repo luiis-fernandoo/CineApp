@@ -44,6 +44,7 @@ public class FeedEntry implements BaseColumns {
         private static final String SQL_CREATE_ENTRIES_FILM =
                 "CREATE TABLE " + feedEntryFilm.TABLE_NAME + " (" +
                         feedEntryFilm._ID + " INTEGER PRIMARY KEY, " +
+                        feedEntryFilm.COLUMN_NAME_FILM_ID + " INTEGER," +
                         feedEntryFilm.COLUMN_NAME_TITLE + " TEXT," +
                         feedEntryFilm.COLUMN_NAME_BACKDROP_PATH + " TEXT, " +
                         feedEntryFilm.COLUMN_NAME_ADULT + " BOOLEAN, " +

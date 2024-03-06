@@ -84,6 +84,8 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         Intent it = getIntent();
         int tag = Integer.parseInt(it.getStringExtra("tag"));
 
+        Log.d("", "Tag " + tag);
+
         MyAsyncTask myAsyncTask = new MyAsyncTask(this, tag);
         myAsyncTask.execute();
 

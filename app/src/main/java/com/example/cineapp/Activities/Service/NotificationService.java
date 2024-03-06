@@ -86,13 +86,12 @@ public class NotificationService extends Service {
                     FilmDao filmDao = new FilmDao(getApplicationContext(), film);
                     Film filmNotification = filmDao.getFilmById(remind.getFilm_id());
                     if (reminderDate != null && currentDate.compareTo(reminderDate) >= 0) {
-
                         createNotificationChannel();
                         sendNotification(getApplicationContext(), userID, filmNotification);
                         lembreteDao.deleteReminders(remind.getId());
-                        Log.d("", "Datas iguais");
+                        Log.d("", "Enviar notificação");
                     } else {
-                        Log.d("", "Datas diferentes");
+                        Log.d("", "Não há lembretes nesse horario");
                     }
                 }
                 handler.post(new Runnable() {
@@ -102,7 +101,7 @@ public class NotificationService extends Service {
                     }
                 });
             }
-        }, 0, INTERVALO_VERIFICACAO);
+        },0, INTERVALO_VERIFICACAO);
     }
 
     @Override
@@ -126,11 +125,10 @@ public class NotificationService extends Service {
 
     private void sendNotification(Context context, User user, Film film) {
         // Crie uma notificação
-        Log.d("Hora", "Run send.");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
                 .setSmallIcon(R.drawable.cineapp)
                 .setContentTitle("CineApp")
-                .setContentText("Hora de assistir " + film.getTitle() + ", " + user.getNome())
+                .setContentText("Hora de assistir " + (film.getTitle() != null ? film.getTitle() : "O filme Agendado")  + " " + user.getNome())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         // Crie uma intenção para abrir quando a notificação for clicada

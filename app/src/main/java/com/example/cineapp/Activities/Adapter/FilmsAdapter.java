@@ -73,8 +73,9 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
                 film_name.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent it = new Intent(context, detailsFilmActivity.class);
-                        it.putExtra("tag", film.getId());
+                        Intent it = new Intent(view.getContext(), detailsFilmActivity.class);
+                        it.putExtra("tag", String.valueOf(film.getFilm_id()));
+                        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Adiciona a flag FLAG_ACTIVITY_NEW_TASK
                         context.startActivity(it);
                     }
                 });

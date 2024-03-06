@@ -121,7 +121,6 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
         alertDialogBuilder.setView(popupView);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
-        Log.d("", "Entrou: " + alertDialog);
         alertDialog.show();
 
         Button buttonOk = popupView.findViewById(R.id.button_ok);
