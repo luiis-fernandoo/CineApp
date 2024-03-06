@@ -12,9 +12,15 @@
         android:iconTint="@color/red_end"
         android:icon="@drawable/baseline_live_tv_24"/>
     <item
+        android:id="@+id/lembrete"
+        android:title="Lembrete"
+        android:iconTint="@color/red_end"
+        android:icon="@drawable/baseline_access_alarm_24"/>
+    <item
         android:id="@+id/perfil"
         android:title="Perfil"
         android:iconTint="@color/red_end"
         android:icon="@drawable/baseline_person_2_24"/>
+
 
 </menu>

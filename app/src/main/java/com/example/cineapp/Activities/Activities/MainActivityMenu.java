@@ -8,10 +8,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.example.cineapp.Activities.Fragments.HomeFragment;
+import com.example.cineapp.Activities.Fragments.NotificationFragment;
 import com.example.cineapp.Activities.Fragments.PerfilFragment;
 import com.example.cineapp.Activities.Fragments.WatchlistFragment;
 import com.example.cineapp.R;
-import com.example.cineapp.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivityMenu extends AppCompatActivity {
@@ -33,6 +33,8 @@ public class MainActivityMenu extends AppCompatActivity {
                 replaceFragment(new WatchlistFragment());
             } else if (item.getItemId()==R.id.perfil){
                 replaceFragment(new PerfilFragment());
+            }   else if (item.getItemId()==R.id.lembrete){
+                replaceFragment(new NotificationFragment());
             }
             return true;
         });
