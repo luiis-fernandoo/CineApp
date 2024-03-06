@@ -65,28 +65,36 @@ public class LoginActivity extends AppCompatActivity {
             String email = edit_email.getText().toString();
             String senha = edit_senha.getText().toString();
 
-            uDao = new UserDao(getApplicationContext(), new User(email, senha));
+            // Autenticar o usuário no Firebase
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // Usuário autenticado com sucesso
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            if (user != null) {
+                                // Salvando os dados do usuário no SharedPreferences
+                                SharedPreferences.Editor editor = sp.edit();
+                                editor.putString("email", email);
 
-            if (uDao.verifyEmailAndPassword()) {
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("email", email);
+                                //recupera o nome durante a verificação do login
+                                String nome = uDao.getUserName(email);
+                                editor.putString("nome", nome);
+                                editor.apply();
 
-                //recupera o nome durante a verificação do login
-                String nome = uDao.getUserName(email);
-                editor.putString("nome", nome);
-                editor.apply();
+                                Log.d("LoginActivity", "Email salvo: " + email);
+                                Log.d("LoginActivity", "Nome salvo: " + nome);
 
-                Log.d("LoginActivity", "Email salvo: " + email);
-                Log.d("LoginActivity", "Nome salvo: " + nome);
-
-                Intent intent = new Intent(LoginActivity.this, MainActivityMenu.class);
-                startActivity(intent);
-                finish();
-
-
-            } else {
-                Toast.makeText(LoginActivity.this, "Dados incorretos", Toast.LENGTH_SHORT).show();
-            }
+                                Intent intent = new Intent(LoginActivity.this, MainActivityMenu.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Usuário não encontrado", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            // Erro ao autenticar o usuário
+                            Toast.makeText(LoginActivity.this, "Erro ao fazer login: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
         });
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

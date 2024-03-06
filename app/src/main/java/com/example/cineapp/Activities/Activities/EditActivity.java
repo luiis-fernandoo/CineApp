@@ -17,8 +17,9 @@ import com.example.cineapp.R;
 public class EditActivity extends AppCompatActivity {
 
     private EditText edit_email, edit_senha, edit_nome, edit_CPF;
-
     private UserDao userDAO;
+    private SharedPreferences sp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,8 @@ public class EditActivity extends AppCompatActivity {
         edit_nome = findViewById(R.id.watchListName);
         edit_CPF = findViewById(R.id.edit_CPF);
         Button bt_salvar = findViewById(R.id.btnWatchList);
+        sp = getSharedPreferences("app", MODE_PRIVATE);
 
-        SharedPreferences sp = getSharedPreferences("app_Cassino", Context.MODE_PRIVATE);
         String savedNome = sp.getString("nome", "");
         String savedCPF = sp.getString("cpf", "");
         String savedEmail = sp.getString("email", "");
@@ -50,6 +51,8 @@ public class EditActivity extends AppCompatActivity {
 
             if (nome.isEmpty() || cpf.isEmpty() || email.isEmpty() || senha.isEmpty()) {
                 Toast.makeText(EditActivity.this, "Preencha todos os campos", Toast.LENGTH_SHORT).show();
+            } else if (senha.length() < 6) {
+                Toast.makeText(EditActivity.this, "A senha deve ter pelo menos 6 caracteres", Toast.LENGTH_SHORT).show();
             } else {
                 if (!email.equals(savedEmail)) {
                     Toast.makeText(EditActivity.this, "Não é possível alterar o e-mail", Toast.LENGTH_SHORT).show();
@@ -58,7 +61,7 @@ public class EditActivity extends AppCompatActivity {
 
                 // Atualize o usuário com os novos dados
                 User user = new User(email, nome, senha, cpf);
-                userDAO = new UserDao(getApplicationContext(), user); // Pode ser necessário reinicializar o UserDAO
+                userDAO = new UserDao(getApplicationContext(), user);
                 if (userDAO.UserUpdate(user)) {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("nome", nome);

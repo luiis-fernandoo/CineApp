@@ -15,6 +15,7 @@ import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -38,11 +39,14 @@ public class RegisterActivity extends AppCompatActivity {
         edit_CPF = findViewById(R.id.edit_CPF);
         Button bt_cadastro = findViewById(R.id.bt_cadastro);
 
+        edit_CPF.addTextChangedListener(CPFMaskUtil.insert(edit_CPF));
+
+
         bt_cadastro.setOnClickListener(v -> {
             String email = edit_email.getText().toString();
             String senha = edit_senha.getText().toString();
             String nome = edit_nome.getText().toString();
-            String cpf = edit_CPF.getText().toString();
+            String cpf = CPFMaskUtil.unmask(edit_CPF.getText().toString()); // Remova a máscara antes de salvar
 
             // Cria um novo usuário com os dados fornecidos
             User newUser = new User(email, nome, senha, cpf);
@@ -92,10 +96,16 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     } else {
                         // Se o registro no Firebase falhou
-                        Toast.makeText(RegisterActivity.this, "Falha ao cadastrar o usuário no Firebase", Toast.LENGTH_SHORT).show();
+                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                            // Se o e-mail já estiver em uso
+                            Toast.makeText(RegisterActivity.this, "O endereço de e-mail já está em uso por outra conta.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RegisterActivity.this, "Falha ao cadastrar o usuário no Firebase", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
+
 
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
@@ -113,3 +123,4 @@ public class RegisterActivity extends AppCompatActivity {
         editor.apply();
     }
 }
+
