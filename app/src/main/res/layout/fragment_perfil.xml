@@ -22,15 +22,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
+
         <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:id="@+id/imgUser"
+            android:layout_width="98dp"
+            android:layout_height="96dp"
             android:src="@drawable/ic_user"
-            app:layout_constraintStart_toStartOf="@+id/containerUser"
-            app:layout_constraintEnd_toEndOf="@+id/containerUser"
-            app:layout_constraintTop_toTopOf="@+id/containerUser"
             app:layout_constraintBottom_toBottomOf="@+id/containerUser"
-            />
+            app:layout_constraintEnd_toEndOf="@+id/containerUser"
+            app:layout_constraintStart_toStartOf="@+id/containerUser"
+            app:layout_constraintTop_toTopOf="@+id/containerUser" />
         <ImageView
             android:id="@+id/iconeUser"
             android:layout_width="50dp"
