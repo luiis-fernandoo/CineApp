@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,9 @@ import com.example.cineapp.Activities.Activities.LoginActivity;
 import com.example.cineapp.Activities.Activities.MainUserActivity;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +38,7 @@ import com.example.cineapp.R;
 public class PerfilFragment extends Fragment {
     private TextView textNomeUser, textNomeEmail;
     private Button bt_deslogar, bt_apagar, bt_Editar;
+    private ImageView imgUser;
     private SharedPreferences sp;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,16 +89,50 @@ public class PerfilFragment extends Fragment {
         bt_deslogar = rootView.findViewById(R.id.bt_deslogar);
         bt_apagar = rootView.findViewById(R.id.bt_apagar);
         bt_Editar = rootView.findViewById(R.id.bt_Editar);
+        imgUser = rootView.findViewById(R.id.imgUser);
+
 
         sp = requireActivity().getSharedPreferences("app", MODE_PRIVATE);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            String nome = user.getDisplayName();
+            String email = user.getEmail();
+            String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
+
+
+            // Verifica se o nome e o e-mail não estão vazios antes de exibi-los
+            if (nome != null && !nome.isEmpty()) {
+                textNomeUser.setText("Nome: " + nome);
+            } else {
+                textNomeUser.setText("Nome: N/A");
+            }
+            if (email != null && !email.isEmpty()) {
+                textNomeEmail.setText("Email: " + email);
+            } else {
+                textNomeEmail.setText("Email: N/A");
+            }
+            if (photoUrl != null && !photoUrl.isEmpty()) {
+                Picasso.get().load(photoUrl).into(imgUser);
+            } else {
+                imgUser.setImageResource(R.drawable.ic_user);
+            }
+        } else {
+            Toast.makeText(requireContext(), "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
+        }
+
         String savedEmail = sp.getString("email", "");
         String savedNome = sp.getString("nome", "");
+        String photoUrl = sp.getString("photoUrl", "");
+
 
         Log.d("MainUserActivity", "Email recuperado: " + savedEmail);
         Log.d("MainUserActivity", "Nome recuperado: " + savedNome);
+        Log.d("MainUserActivity", "URL da foto do perfil recuperada: " + photoUrl);
 
-        textNomeUser.setText("Nome: "+savedNome);
-        textNomeEmail.setText("Email: "+savedEmail);
+
+
+        textNomeUser.setText("Nome: " + savedNome);
+        textNomeEmail.setText("Email: " + savedEmail);
 
         bt_deslogar.setOnClickListener(v -> {
             logoutUser();
@@ -151,7 +190,8 @@ public class PerfilFragment extends Fragment {
         // Remove os dados do SharedPreferences
         editor.remove("email");
         editor.remove("nome");
-        // Adicione outras chaves para remover se necessário
+        editor.remove("photoUrl");
+
 
         editor.apply();
 

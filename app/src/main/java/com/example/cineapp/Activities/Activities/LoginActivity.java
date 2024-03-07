@@ -65,6 +65,9 @@ public class LoginActivity extends AppCompatActivity {
             String email = edit_email.getText().toString();
             String senha = edit_senha.getText().toString();
 
+            uDao = new UserDao(getApplicationContext(), new User(email, senha));
+
+
             // Autenticar o usuário no Firebase
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha)
                     .addOnCompleteListener(task -> {

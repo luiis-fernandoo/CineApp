@@ -14,11 +14,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.bumptech.glide.Glide;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 public class MainUserActivity extends AppCompatActivity {
 
@@ -30,7 +30,7 @@ public class MainUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_user);
+        setContentView(R.layout.activity_main_user2);
 
         textNomeUser = findViewById(R.id.textNomeUser);
         textNomeEmail = findViewById(R.id.textNomeEmail);
@@ -46,6 +46,8 @@ public class MainUserActivity extends AppCompatActivity {
         if (user != null) {
             String nome = user.getDisplayName();
             String email = user.getEmail();
+            String photoUrl = user.getPhotoUrl().toString();
+
 
             // Verifica se o nome e o e-mail não estão vazios antes de exibi-los
             if (nome != null && !nome.isEmpty()) {
@@ -59,12 +61,11 @@ public class MainUserActivity extends AppCompatActivity {
                 textNomeEmail.setText("Email: N/A");
             }
             // Recupere a URL da foto do perfil após inicializar o SharedPreferences
-            String photoUrl = user.getPhotoUrl().toString();
             if (photoUrl != null && !photoUrl.isEmpty()) {
                 // Use o Glide para carregar a imagem na View
-                Glide.with(this)
-                        .load(photoUrl)
-                        .into(imgUser);
+
+                Picasso.get().load(photoUrl).into(imgUser);
+
             }
         } else {
             Toast.makeText(this, "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
@@ -72,16 +73,18 @@ public class MainUserActivity extends AppCompatActivity {
 
         String savedEmail = sp.getString("email", "");
         String savedNome = sp.getString("nome", "");
-        String savedPhotoUrl = sp.getString("photoUrl", "");
+        String photoUrl = sp.getString("photoUrl", "");
 
 
         Log.d("MainUserActivity", "Email recuperado: " + savedEmail);
         Log.d("MainUserActivity", "Nome recuperado: " + savedNome);
-        Log.d("MainUserActivity", "URL da foto do perfil recuperada: " + savedPhotoUrl);
+        Log.d("MainUserActivity", "URL da foto do perfil recuperada: " + photoUrl);
+
 
 
         textNomeUser.setText("Nome: " + savedNome);
         textNomeEmail.setText("Email: " + savedEmail);
+
 
         bt_deslogar.setOnClickListener(v -> {
             logoutUser();
@@ -149,13 +152,11 @@ public class MainUserActivity extends AppCompatActivity {
 
         String savedNome = sp.getString("nome", "");
         String savedEmail = sp.getString("email", "");
-        String savedPhotoUrl = sp.getString("photoUrl", "");
 
 
 
         textNomeUser.setText("Nome: " + savedNome);
         textNomeEmail.setText("Email: " + savedEmail);
-        Log.d("MainUserActivity", "URL da foto do perfil recuperada onResume: " + savedPhotoUrl);
 
     }
 
