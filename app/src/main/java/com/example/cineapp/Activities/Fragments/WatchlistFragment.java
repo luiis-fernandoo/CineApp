@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +46,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class WatchlistFragment extends Fragment {
-    Button btnWatchList, button_watchlist, watchlist_edit, watchlist_delete;
+    ImageButton button_watchlist, btnWatchList, watchlist_edit, watchlist_delete;
     TextView watchListName;
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
