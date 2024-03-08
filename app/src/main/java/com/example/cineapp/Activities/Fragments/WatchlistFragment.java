@@ -158,22 +158,22 @@ public class WatchlistFragment extends Fragment {
                 user = userDao.getUserNameID(savedEmail);
                 int userId = user.getId();
 
-                database = FirebaseDatabase.getInstance();
-                DatabaseReference tableWatchList = database.getReference("WatchList");
+//                database = FirebaseDatabase.getInstance();
+//                DatabaseReference tableWatchList = database.getReference("WatchList");
                 User finalUser = user;
-                tableWatchList.orderByChild("name").equalTo(nameWatchList).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            Toast.makeText(requireActivity(), "Já existe uma WatchList com este nome.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            DatabaseReference newItem = tableWatchList.push();
-
-                            newItem.child("name").setValue(nameWatchList);
-                            newItem.child("user_id").setValue(finalUser);
-                            newItem.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //tableWatchList.orderByChild("name").equalTo(nameWatchList).addListenerForSingleValueEvent(new ValueEventListener() {
+                    //@Override
+                   // public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        if (dataSnapshot.exists()) {
+//                            Toast.makeText(requireActivity(), "Já existe uma WatchList com este nome.", Toast.LENGTH_SHORT).show();
+//                        } else {
+//                            DatabaseReference newItem = tableWatchList.push();
+//
+//                            newItem.child("name").setValue(nameWatchList);
+//                            newItem.child("user_id").setValue(finalUser);
+                            //newItem.addListenerForSingleValueEvent(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     // Verifique se os dados foram salvos com sucesso
                                     Log.d("Firebase", "Dados salvos com sucesso!");
 
@@ -189,22 +189,22 @@ public class WatchlistFragment extends Fragment {
                                         Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
                                     }
 
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-                                    // Ocorreu um erro ao salvar no Firebase
-                                    Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
-                                    Toast.makeText(requireActivity(), "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Handle error
-                    }
-                });
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError error) {
+//                                    // Ocorreu um erro ao salvar no Firebase
+//                                    Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
+//                                    Toast.makeText(requireActivity(), "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
+//                                }
+                            //});
+                        //}
+                //}
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                        // Handle error
+//                    }
+                //});
                 alertDialog.dismiss();
             }
         });

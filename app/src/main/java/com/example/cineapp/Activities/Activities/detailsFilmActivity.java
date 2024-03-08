@@ -222,113 +222,41 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                         WatchList ObjwatchList = watchlistDao.getWatchlist(watchlistName);
                         SaveList saveList = new SaveList();
                         SaveListDAO saveListDAO = new SaveListDAO(getApplicationContext(), saveList);
-                        database = FirebaseDatabase.getInstance();
-                        DatabaseReference tableSaveList = database.getReference("saveList");
-                        tableSaveList.orderByChild("watchlist_id").equalTo(ObjwatchList.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()) {
-                                    try {
-                                        tableSaveList.orderByChild("film_id").equalTo(film.getString("id")).addListenerForSingleValueEvent(new ValueEventListener() {
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                if (dataSnapshot.exists()) {
-                                                    Toast.makeText(detailsFilmActivity.this, "Esse filme já existe essa watchlist.", Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    DatabaseReference newItem = tableSaveList.push();
-
-                                                    try {
-                                                        newItem.child("film_id").setValue(film.getString("id"));
-                                                    } catch (JSONException e) {
-                                                        throw new RuntimeException(e);
-                                                    }
-                                                    newItem.child("user_id").setValue(user.getId());
-                                                    newItem.child("watchlist_id").setValue(ObjwatchList.getId());
-                                                    newItem.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                             // Verifique se os dados foram salvos com sucesso
-                                                            Log.d("Firebase", "Dados salvos com sucesso!");
-                                                            try {
-                                                                if (saveListDAO.insertNewSaveList(film.getString("id"), ObjwatchList)) {
-                                                                    Film filme = new Film();
-                                                                    FilmDao filmDao = new FilmDao(getApplicationContext(), filme);
-                                                                    if (filmDao.insertFilm(film)) {
-                                                                        Log.d("Filme", "Filme cadastrado");
-                                                                    } else {
-                                                                        Log.d("Filme", "Erro");
-                                                                    }
-                                                                    Toast.makeText(detailsFilmActivity.this, "Filme salvo na watchlist " + ObjwatchList.getName(), Toast.LENGTH_SHORT).show();
-                                                                } else {
-                                                                    Toast.makeText(detailsFilmActivity.this, "Não foi possível salvar o filme", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            } catch (JSONException ex) {
-                                                                throw new RuntimeException(ex);
-                                                            }
-                                                        }
-                                                        @Override
-                                                        public void onCancelled(@NonNull DatabaseError error) {
-                                                            Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
-                                                            Toast.makeText(detailsFilmActivity.this, "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
-                                                Toast.makeText(detailsFilmActivity.this, "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    } catch (JSONException e) {
-                                        throw new RuntimeException(e);
-                                    }
+                        try {
+                            if (saveListDAO.insertNewSaveList(film.getString("id"), ObjwatchList)) {
+                                Film filme = new Film();
+                                FilmDao filmDao = new FilmDao(getApplicationContext(), filme);
+                                if (filmDao.insertFilm(film)) {
+                                    Log.d("Filme", "Filme cadastrado");
                                 } else {
-                                    DatabaseReference newItem = tableSaveList.push();
-
-                                    try {
-                                        newItem.child("film_id").setValue(film.getString("id"));
-                                    } catch (JSONException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    newItem.child("user_id").setValue(user.getId());
-                                    newItem.child("watchlist_id").setValue(ObjwatchList.getId());
-                                    newItem.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            // Verifique se os dados foram salvos com sucesso
-                                            Log.d("Firebase", "Dados salvos com sucesso!");
-                                            try {
-                                                if (saveListDAO.insertNewSaveList(film.getString("id"), ObjwatchList)) {
-                                                    Film filme = new Film();
-                                                    FilmDao filmDao = new FilmDao(getApplicationContext(), filme);
-                                                    if (filmDao.insertFilm(film)) {
-                                                        Log.d("Filme", "Filme cadastrado");
-                                                    } else {
-                                                        Log.d("Filme", "Erro");
-                                                    }
-                                                    Toast.makeText(detailsFilmActivity.this, "Filme salvo na watchlist " + ObjwatchList.getName(), Toast.LENGTH_SHORT).show();
-                                                } else {
-                                                    Toast.makeText(detailsFilmActivity.this, "Não foi possível salvar o filme", Toast.LENGTH_SHORT).show();
-                                                }
-                                            } catch (JSONException ex) {
-                                                throw new RuntimeException(ex);
-                                            }
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            // Ocorreu um erro ao salvar no Firebase
-                                            Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
-                                            Toast.makeText(detailsFilmActivity.this, "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+                                    Log.d("Filme", "Erro");
                                 }
+                                Toast.makeText(detailsFilmActivity.this, "Filme salvo na watchlist " + ObjwatchList.getName(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(detailsFilmActivity.this, "Não foi possível salvar o filme", Toast.LENGTH_SHORT).show();
                             }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
-                                Toast.makeText(detailsFilmActivity.this, "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        // Verifique se os dados foram salvos com sucesso
+                                            Log.d("Firebase", "Dados salvos com sucesso!");
+//                        try {
+//                            if (saveListDAO.insertNewSaveList(film.getString("id"), ObjwatchList)) {
+//                                Film filme = new Film();
+//                                FilmDao filmDao = new FilmDao(getApplicationContext(), filme);
+//                                if (filmDao.insertFilm(film)) {
+//                                    Log.d("Filme", "Filme cadastrado");
+//                                } else {
+//                                    Log.d("Filme", "Erro");
+//                                }
+//                                Toast.makeText(detailsFilmActivity.this, "Filme salvo na watchlist " + ObjwatchList.getName(), Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(detailsFilmActivity.this, "Não foi possível salvar o filme", Toast.LENGTH_SHORT).show();
+//                            }
+//                        } catch (JSONException e) {
+//                            throw new RuntimeException(e);
+//                        }
                     }
                 })
                 .create();
