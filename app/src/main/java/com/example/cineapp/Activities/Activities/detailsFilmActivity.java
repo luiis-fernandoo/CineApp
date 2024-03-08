@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -62,7 +63,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
     ImageView imagePrincipal;
     TextView titleDetails, overview, genres, production, release_date, tagline;
     ConstraintLayout constraintLayout;
-    Button addWatchList, addLembrete;
+    ImageButton addWatchList, addLembrete;
     private FirebaseDatabase database;
 
     @Override
