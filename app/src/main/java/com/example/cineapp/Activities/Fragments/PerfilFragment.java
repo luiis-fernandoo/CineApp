@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.cineapp.Activities.Activities.CircleTransform;
 import com.example.cineapp.Activities.Activities.EditActivity;
 import com.example.cineapp.Activities.Activities.LoginActivity;
 import com.example.cineapp.Activities.Activities.MainUserActivity;
@@ -112,7 +113,7 @@ public class PerfilFragment extends Fragment {
                 textNomeEmail.setText("Email: N/A");
             }
             if (photoUrl != null && !photoUrl.isEmpty()) {
-                Picasso.get().load(photoUrl).into(imgUser);
+                Picasso.get().load(photoUrl).transform(new CircleTransform()).into(imgUser);
             } else {
                 imgUser.setImageResource(R.drawable.ic_user);
             }
