@@ -2,19 +2,15 @@ package com.example.cineapp.Activities.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cineapp.Activities.Activities.DetailsWatchlistActivity;
-import com.example.cineapp.Activities.Activities.detailsFilmActivity;
 import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
 
@@ -58,7 +54,7 @@ public class WatchListAdapter extends RecyclerView.Adapter<WatchListAdapter.Watc
 
         public WatchlistViewHolder(View view) {
             super(view);
-            watchlistName = view.findViewById(R.id.watchList_name);
+            watchlistName = view.findViewById(R.id.reminder);
         }
         public void bind(WatchList watchList, Context context) {
             try {
