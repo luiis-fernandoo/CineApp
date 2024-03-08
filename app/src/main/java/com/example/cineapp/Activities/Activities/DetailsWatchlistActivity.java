@@ -23,24 +23,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cineapp.Activities.Adapter.FilmsAdapter;
-import com.example.cineapp.Activities.Adapter.WatchListAdapter;
 import com.example.cineapp.Activities.DAO.FilmDao;
 import com.example.cineapp.Activities.DAO.SaveListDAO;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
-import com.example.cineapp.Activities.Fragments.HomeFragment;
 import com.example.cineapp.Activities.Models.Film;
 import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DetailsWatchlistActivity extends AppCompatActivity {
@@ -55,7 +48,7 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_watchlist);
 
-        watchlist_name = findViewById(R.id.watchList_name);
+        watchlist_name = findViewById(R.id.reminder);
         edit_watchlist = findViewById(R.id.edit_watchlist);
         delete_watchlist = findViewById(R.id.delete_watchlist);
 

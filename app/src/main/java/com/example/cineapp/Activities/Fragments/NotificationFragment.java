@@ -1,14 +1,31 @@
 package com.example.cineapp.Activities.Fragments;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.cineapp.Activities.Adapter.ReminderAdapter;
+import com.example.cineapp.Activities.Adapter.WatchListAdapter;
+import com.example.cineapp.Activities.DAO.LembreteDao;
+import com.example.cineapp.Activities.DAO.UserDao;
+import com.example.cineapp.Activities.DAO.WatchlistDao;
+import com.example.cineapp.Activities.Models.Reminder;
+import com.example.cineapp.Activities.Models.User;
+import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +42,9 @@ public class NotificationFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView recyclerView;
+    private ReminderAdapter adapter;
 
     public NotificationFragment() {
         // Required empty public constructor
@@ -57,10 +77,27 @@ public class NotificationFragment extends Fragment {
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
+        SharedPreferences sp = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
+        String savedEmail = sp.getString("email", "");
+        User user = new User();
+        UserDao userDao = new UserDao(getContext(), user);
+        User userID = userDao.getUserNameID(savedEmail);
+        List<Reminder> reminders = new ArrayList<>();
+        Reminder reminder = new Reminder();
+        LembreteDao lembreteDao = new LembreteDao(getContext(), reminder);
+        reminders = lembreteDao.getAllLembretes(userID);
+        recyclerView = rootView.findViewById(R.id.recycler_view_reminders);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new ReminderAdapter(getActivity());
+        recyclerView.setAdapter(adapter);
+
+        adapter.setReminders(reminders);
+
+        return rootView;
     }
 }
