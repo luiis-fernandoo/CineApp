@@ -192,7 +192,6 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         view = LayoutInflater.from(this).inflate(R.layout.activity_popup_view, null);
         // Encontrar o Spinner
         Spinner spinner = view.findViewById(R.id.watchlist_spinner);
-
         // Carregar as watchlists do banco
         new LoadWatchlistsTask(getApplicationContext(), spinner).execute();
 
@@ -209,7 +208,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         });
 
         // Criar um AlertDialog
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomAlertDialog)
                 .setView(view)
                 .setTitle("Selecionar Watchlist")
                 .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
