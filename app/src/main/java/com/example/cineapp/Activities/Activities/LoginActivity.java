@@ -67,37 +67,51 @@ public class LoginActivity extends AppCompatActivity {
 
             uDao = new UserDao(getApplicationContext(), new User(email, senha));
 
+            if(uDao.verifyEmailAndPassword()){
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("email", email);
 
-            // Autenticar o usuário no Firebase
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            // Usuário autenticado com sucesso
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            if (user != null) {
-                                // Salvando os dados do usuário no SharedPreferences
-                                SharedPreferences.Editor editor = sp.edit();
-                                editor.putString("email", email);
+                Intent intent = new Intent(LoginActivity.this, MainActivityMenu.class);
+                startActivity(intent);
+                finish();
+            }else {
+                // Autenticar o usuário no Firebase
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, senha)
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // Usuário autenticado com sucesso
+                                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                if (user != null) {
+                                    // Salvando os dados do usuário no SharedPreferences
+                                    SharedPreferences.Editor editor = sp.edit();
+                                    editor.putString("email", email);
 
-                                //recupera o nome durante a verificação do login
-                                String nome = uDao.getUserName(email);
-                                editor.putString("nome", nome);
-                                editor.apply();
+                                    //recupera o nome durante a verificação do login
+                                    String nome = uDao.getUserName(email);
+                                    editor.putString("nome", nome);
+                                    editor.apply();
+                                    String cpf = "Default";
+                                    User userLocal = new User(email, nome, senha, cpf);
+                                    Log.d("LoginActivity", "erro: " + email + nome + senha + cpf);
+                                    Log.d("LoginActivity", "erro: " + userLocal.getEmail() + userLocal.getNome() + userLocal.getSenha() + userLocal.getCpf());
+                                    if(uDao.insertNewUser(userLocal)){
+                                        Log.d("LoginActivity", "user salvo no bd local" );
+                                    }else{
+                                        Log.d("LoginActivity", "erro: " + email + nome + senha + cpf);
+                                    }
 
-                                Log.d("LoginActivity", "Email salvo: " + email);
-                                Log.d("LoginActivity", "Nome salvo: " + nome);
-
-                                Intent intent = new Intent(LoginActivity.this, MainActivityMenu.class);
-                                startActivity(intent);
-                                finish();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivityMenu.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Usuário não encontrado", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(LoginActivity.this, "Usuário não encontrado", Toast.LENGTH_SHORT).show();
+                                // Erro ao autenticar o usuário
+                                Toast.makeText(LoginActivity.this, "Erro ao fazer login tente usar um email e senha valida! ", Toast.LENGTH_SHORT).show();
                             }
-                        } else {
-                            // Erro ao autenticar o usuário
-                            Toast.makeText(LoginActivity.this, "Erro ao fazer login tente usar um email e senha valida! ", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        });
+            }
         });
 
         GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -111,7 +125,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = client.getSignInIntent();
                 startActivityForResult(i,1234);
-
             }
         });
     }
@@ -159,7 +172,14 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d("LoginActivity", "Email salvo: " + email);
                                         Log.d("LoginActivity", "Nome salvo: " + nome);
                                         Log.d("LoginActivity", "URL da foto do perfil salva: " + photoUrl);
-
+                                        String senha = "default";
+                                        String cpf = "default";
+                                        User userLocal = new User(email, nome, senha, cpf);
+                                        if(uDao.insertNewUser(userLocal)){
+                                            Log.d("LoginActivity", "user salvo do google no bd local: ");
+                                        }else{
+                                            Log.d("LoginActivity", "Erro google: " + email + nome);
+                                        }
                                     } else {
                                         Log.e("LoginActivity", "UserDao não foi inicializado corretamente.");
                                     }

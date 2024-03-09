@@ -25,19 +25,17 @@ public class UserDao {
     }
 
 
-    public boolean insertNewUser() {
+    public boolean insertNewUser(User user) {
         SQLiteDatabase dbLite = this.db.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("email", this.user.getEmail());
-        values.put("senha", this.user.getSenha());
-        values.put("nome", this.user.getNome());
-        values.put("cpf", this.user.getCpf());
+        values.put("email", user.getEmail());
+        values.put("senha", user.getSenha());
+        values.put("nome", user.getNome());
+        values.put("cpf", user.getCpf());
 
         long resultado = dbLite.insert("user", null, values);
 
         return resultado != -1;
-
-
     }
 
     public boolean UserUpdate(User updatedUser) {
@@ -75,8 +73,6 @@ public class UserDao {
             cursor.close();
             return false;
         }
-
-
     }
 
     public String getUserName(String email) {
@@ -119,10 +115,12 @@ public class UserDao {
             if (cursor.moveToFirst()) {
                 int userIdColumnIndex = cursor.getColumnIndex("_id");
                 int columnIndex = cursor.getColumnIndex("nome");
-                if (userIdColumnIndex != -1 && columnIndex != -1) {
+                int columnIndexEmail = cursor.getColumnIndex("email");
+                if (userIdColumnIndex != -1 && columnIndex != -1 && columnIndexEmail != -1) {
                     userId = cursor.getInt(userIdColumnIndex);
                     nomeUsuario = cursor.getString(columnIndex);
-                    userName = new User(userId, nomeUsuario);
+                    email = cursor.getString(columnIndexEmail);
+                    userName = new User(userId, nomeUsuario, email);
                 }
             }
             cursor.close();

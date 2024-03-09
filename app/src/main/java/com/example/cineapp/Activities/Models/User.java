@@ -9,6 +9,13 @@ public class User {
     private  String nome;
     private String senha;
     private  String cpf;
+
+    public User(int id, String nome, String email) {
+        this.email = email;
+        this.nome = nome;
+        this.id = id;
+    }
+
     public String getCpf() {
         return cpf;
     }

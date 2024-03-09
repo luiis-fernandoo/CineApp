@@ -120,7 +120,7 @@ public class RegisterActivity extends AppCompatActivity {
                         if (firebaseUser != null) {
                             saveNameInSharedPreferences(email, senha, newUser.getNome(), newUser.getCpf());
                             userDAO = new UserDao(getApplicationContext(), newUser);
-                            if (userDAO.insertNewUser()) {
+                            if (userDAO.insertNewUser(newUser)) {
                                 Toast.makeText(RegisterActivity.this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                                 Intent it = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(it);
