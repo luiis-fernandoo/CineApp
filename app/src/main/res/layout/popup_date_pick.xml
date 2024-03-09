@@ -10,7 +10,11 @@
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foregroundGravity="center"
+        android:headerBackground="#FFFF0000"
+        android:yearListSelectorColor="#FF0000" />
 
     <TimePicker
         android:id="@+id/timePicker"

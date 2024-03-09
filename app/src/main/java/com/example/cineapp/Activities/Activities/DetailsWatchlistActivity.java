@@ -44,7 +44,7 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
     private LinearLayout buttonOk;
     private FilmsAdapter adapter;
     private TextView watchlist_name, watchlist_title;
-    private Button edit_watchlist, delete_watchlist;
+    private LinearLayout edit_watchlist, delete_watchlist;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
