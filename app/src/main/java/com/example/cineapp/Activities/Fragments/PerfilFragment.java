@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,8 @@ import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -121,6 +124,18 @@ public class PerfilFragment extends Fragment {
             Toast.makeText(requireContext(), "Usuário não encontrado.", Toast.LENGTH_SHORT).show();
         }
 
+        String imageUrl = sp.getString("profile_image_url", "");
+
+        // Carrega a imagem usando Picasso ou outra biblioteca de sua escolha
+        if (!TextUtils.isEmpty(imageUrl)) {
+            Picasso.get().load(imageUrl).transform(new CircleTransform()).into(imgUser);
+        } else {
+            // Caso a URL esteja vazia, carrega uma imagem padrão ou exibe uma mensagem de erro
+            // imgUser.setImageResource(R.drawable.ic_user);
+            // Ou exiba uma mensagem de erro
+            Toast.makeText(requireContext(), "URL da imagem não encontrada", Toast.LENGTH_SHORT).show();
+        }
+
         String savedEmail = sp.getString("email", "");
         String savedNome = sp.getString("nome", "");
         String photoUrl = sp.getString("photoUrl", "");
@@ -152,10 +167,21 @@ public class PerfilFragment extends Fragment {
 
                     UserDao userDAO = new UserDao(requireContext(), null); // Passe o objeto User, se necessário
 
-                    if (userDAO.DeleteUser(emailToBeDeleted)) {
-                        logoutUser();
-                    } else {
-                        Toast.makeText(requireContext(), "Falha ao apagar o usuário", Toast.LENGTH_SHORT).show();
+                    // Excluir o usuário do Firebase Authentication
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    if (user != null) {
+                        user.delete().addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                // Excluir a imagem do perfil do Firebase Storage
+                                deleteProfileImageFromStorage(user.getUid());
+                                // Excluir os dados do usuário do Realtime Database ou Firestore, se aplicável
+                                 userDAO.DeleteUser(emailToBeDeleted);
+                                // Finalizar a sessão do usuário
+                                logoutUser();
+                            } else {
+                                Toast.makeText(requireContext(), "Falha ao apagar o usuário do Firebase", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 }
             });
@@ -173,6 +199,8 @@ public class PerfilFragment extends Fragment {
         });
 
 
+
+
         bt_deslogar.setOnClickListener(v -> {
             logoutUser();
         });
@@ -185,6 +213,23 @@ public class PerfilFragment extends Fragment {
 
         return rootView;
     }
+    private void deleteProfileImageFromStorage(String userID) {
+        // Configurar o nome do arquivo no Firebase Storage
+        String imageFileName = "profile_images/" + userID + ".jpg";
+
+        // Referência para o Firebase Storage
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+        StorageReference imageRef = storageRef.child(imageFileName);
+
+        // Excluir a imagem do perfil do Firebase Storage
+        imageRef.delete().addOnSuccessListener(aVoid -> {
+            // Imagem excluída com sucesso
+        }).addOnFailureListener(exception -> {
+            // Falha ao excluir a imagem
+            Toast.makeText(requireContext(), "Falha ao excluir a imagem do perfil do Firebase Storage.", Toast.LENGTH_SHORT).show();
+        });
+    }
+
     private void logoutUser() {
         SharedPreferences.Editor editor = sp.edit();
 

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.cineapp.R;
 
 import java.util.Timer;
@@ -16,7 +18,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        ImageView imageView = findViewById(R.id.splash_img);
+        Glide.with(this).asGif().load(R.raw.officine).into(imageView);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -24,6 +27,6 @@ public class SplashActivity extends AppCompatActivity {
                 Intent it = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(it);
             }
-        }, 2000);
+        }, 5000);
     }
 }
