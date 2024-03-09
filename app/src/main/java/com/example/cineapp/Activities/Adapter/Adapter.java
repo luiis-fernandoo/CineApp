@@ -37,8 +37,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         try {
-            JSONObject card = cardList.getJSONObject(position);
-            holder.bind(card);
+            if (position < cardList.length()) {
+                JSONObject card = cardList.getJSONObject(position);
+                holder.bind(card);
+            } else {
+                Log.e("Adapter", "Índice fora dos limites: " + position);
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -55,9 +59,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
+            Log.d("", "Chegou em mY " + imageView);
         }
 
         public void bind(JSONObject card) {
+            Log.d("", "Chegou aqui " + card);
             try {
                 String filmId = card.getString("id");
                 imageView.setTag(filmId);
