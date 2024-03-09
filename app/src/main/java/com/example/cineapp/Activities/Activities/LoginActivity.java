@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         } else {
                             // Erro ao autenticar o usuário
-                            Toast.makeText(LoginActivity.this, "Erro ao fazer login: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Erro ao fazer login tente usar um email e senha valida! ", Toast.LENGTH_SHORT).show();
                         }
                     });
         });
