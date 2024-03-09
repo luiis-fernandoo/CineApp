@@ -59,11 +59,9 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
-            Log.d("", "Chegou em mY " + imageView);
         }
 
         public void bind(JSONObject card) {
-            Log.d("", "Chegou aqui " + card);
             try {
                 String filmId = card.getString("id");
                 imageView.setTag(filmId);
