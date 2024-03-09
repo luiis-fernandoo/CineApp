@@ -37,8 +37,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         try {
-            JSONObject card = cardList.getJSONObject(position);
-            holder.bind(card);
+            if (position < cardList.length()) {
+                JSONObject card = cardList.getJSONObject(position);
+                holder.bind(card);
+            } else {
+                Log.e("Adapter", "Índice fora dos limites: " + position);
+            }
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
