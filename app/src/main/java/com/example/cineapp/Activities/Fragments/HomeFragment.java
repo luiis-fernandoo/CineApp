@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +43,9 @@ import java.util.concurrent.TimeUnit;
 public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListener {
     Button createWatchList, perfil;
     ConstraintLayout constraintLayout;
-    TextView textViewTeste, textSearch;
+    TextView textViewTeste;
+
+    ImageButton textSearch;
     private RecyclerView recyclerViewTopRated, recyclerViewPopular, recyclerViewUpComing,recyclerViewTerror ,recyclerViewComedia, recyclerViewAnimacao, recyclerViewFiccao, recyclerViewRomance;
     private List<String> cardList;
     private String reference;
