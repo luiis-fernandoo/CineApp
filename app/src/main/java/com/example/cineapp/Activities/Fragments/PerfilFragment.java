@@ -30,6 +30,8 @@ import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -175,7 +177,7 @@ public class PerfilFragment extends Fragment {
                                 // Excluir a imagem do perfil do Firebase Storage
                                 deleteProfileImageFromStorage(user.getUid());
                                 // Excluir os dados do usuário do Realtime Database ou Firestore, se aplicável
-                                 userDAO.DeleteUser(emailToBeDeleted);
+                                userDAO.DeleteUser(emailToBeDeleted);
                                 // Finalizar a sessão do usuário
                                 logoutUser();
                             } else {
@@ -197,9 +199,6 @@ public class PerfilFragment extends Fragment {
             AlertDialog dialog = builder.create();
             dialog.show();
         });
-
-
-
 
         bt_deslogar.setOnClickListener(v -> {
             logoutUser();
