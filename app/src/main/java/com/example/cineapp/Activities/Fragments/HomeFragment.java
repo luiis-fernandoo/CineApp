@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.work.BackoffPolicy;
@@ -13,11 +15,16 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.cineapp.Activities.Adapter.Adapter;
 import com.example.cineapp.Activities.Broadcast.MyWorker;
@@ -33,10 +40,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListener {
-    Button createWatchList;
-    Button perfil;
+    Button createWatchList, perfil;
     ConstraintLayout constraintLayout;
-    TextView textViewTeste;
+    TextView textViewTeste, textSearch;
     private RecyclerView recyclerViewTopRated, recyclerViewPopular, recyclerViewUpComing,recyclerViewTerror ,recyclerViewComedia, recyclerViewAnimacao, recyclerViewFiccao, recyclerViewRomance;
     private List<String> cardList;
     private String reference;
@@ -98,6 +104,14 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
         recyclerViewRomance = view.findViewById(R.id.recyclerViewRomance);
         recyclerViewFiccao = view.findViewById(R.id.recyclerViewFiccao);
         recyclerViewAnimacao = view.findViewById(R.id.recyclerViewAnimacao);
+        textSearch = view.findViewById(R.id.textSearch);
+
+        textSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replaceFragment(new SearchFragment());
+            }
+        });
 
         WorkManager workManager = WorkManager.getInstance(context);
         workManager.enqueueUniquePeriodicWork("workNotificationService", ExistingPeriodicWorkPolicy.KEEP,
@@ -205,7 +219,15 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
                 reference = "Animacao";
                 MyAsyncTask myAsyncTaskAnimacao = new MyAsyncTask(HomeFragment.this, urlAnimacao, reference);
                 myAsyncTaskAnimacao.execute();
+
             }
         }).start();
+    }
+
+    private void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
     }
 }
