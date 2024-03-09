@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import java.util.List;
 public class DetailsWatchlistActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private LinearLayout buttonOk;
     private FilmsAdapter adapter;
     private TextView watchlist_name, watchlist_title;
     private Button edit_watchlist, delete_watchlist;
@@ -116,7 +119,7 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 
-        Button buttonOk = popupView.findViewById(R.id.button_ok);
+        buttonOk = popupView.findViewById(R.id.button_ok);
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

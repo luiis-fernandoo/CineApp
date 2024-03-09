@@ -49,6 +49,8 @@ public class WatchlistFragment extends Fragment {
     ImageButton button_watchlist, btnWatchList, watchlist_edit, watchlist_delete;
     TextView watchListName;
 
+    private LinearLayout buttonOk;
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -144,7 +146,7 @@ public class WatchlistFragment extends Fragment {
         final AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 
-        Button buttonOk = popupView.findViewById(R.id.button_ok);
+        buttonOk = popupView.findViewById(R.id.button_ok);
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
