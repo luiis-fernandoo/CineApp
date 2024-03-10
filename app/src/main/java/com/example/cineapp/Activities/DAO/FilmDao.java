@@ -57,6 +57,31 @@ public class FilmDao {
         }
     }
 
+    public boolean insertFilmByFirebase(){
+        try {
+            SQLiteDatabase dbLite = this.db.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put("backdrop_path", film.getBackdrop_path());
+            values.put("film_id", film.getFilm_id());
+            values.put("original_language", film.getOriginal_language());
+            values.put("original_title", film.getOriginal_title());
+            values.put("overview", film.getOverview());
+            values.put("title", film.getTitle());
+            values.put("poster_path", film.getPoster_path());
+            values.put("release_date", film.getRelease_date().getTime());
+            values.put("vote_average", film.getVote_average());
+            values.put("false", "false");
+
+            long resultado = dbLite.insert("film", null, values);
+
+            return resultado != -1;
+        } catch (Exception e) {
+            Log.e("SQLite", "Erro ao inserir na tabela Film: " + e.getMessage());
+            return false;
+        }
+    }
+
     @SuppressLint("Range")
     public List<Film> getFilmBySaveList(List<SaveList> saveListsArray){
         SQLiteDatabase db = this.db.getReadableDatabase();

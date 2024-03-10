@@ -34,7 +34,6 @@ import com.example.cineapp.Activities.DAO.LembreteDao;
 import com.example.cineapp.Activities.DAO.SaveListDAO;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
-import com.example.cineapp.Activities.Fragments.HomeFragment;
 import com.example.cineapp.Activities.Helpers.MyAsyncTask;
 import com.example.cineapp.Activities.Models.Film;
 import com.example.cineapp.Activities.Models.Reminder;
@@ -42,6 +41,8 @@ import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,7 +65,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
     TextView titleDetails, overview, genres, production, release_date, tagline;
     ConstraintLayout constraintLayout;
     ImageButton addWatchList, addLembrete;
-    private FirebaseDatabase database;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,8 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         tagline = findViewById(R.id.tagline);
         addWatchList = findViewById(R.id.addWatchList);
         addLembrete = findViewById(R.id.addLembrete);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Intent it = getIntent();
         int tag = Integer.parseInt(it.getStringExtra("tag"));
@@ -160,7 +163,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                     addWatchList.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            exibirPopup(view, result, userPass);
+                            exibirPopup(view, result);
                         }
                     });
 
@@ -188,74 +191,35 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
 
     }
 
-    private void exibirPopup(View view, JSONObject film, User user) {
+    private void exibirPopup(View view, JSONObject film) {
         view = LayoutInflater.from(this).inflate(R.layout.activity_popup_view, null);
-        // Encontrar o Spinner
         Spinner spinner = view.findViewById(R.id.watchlist_spinner);
-        // Carregar as watchlists do banco
+
         new LoadWatchlistsTask(getApplicationContext(), spinner).execute();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String watchlistName = (String) parent.getItemAtPosition(position);
-            }
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 Toast.makeText(detailsFilmActivity.this, "Nenhuma watchlist selecionada", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Criar um AlertDialog
-        AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomAlertDialog)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(view)
                 .setTitle("Selecionar Watchlist")
                 .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String watchlistName = (String) spinner.getSelectedItem();
-
-                        WatchList watchList = new WatchList();
-                        WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), watchList);
+                        WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), new WatchList());
                         WatchList ObjwatchList = watchlistDao.getWatchlist(watchlistName);
-                        SaveList saveList = new SaveList();
-                        SaveListDAO saveListDAO = new SaveListDAO(getApplicationContext(), saveList);
-                                                            // Verifique se os dados foram salvos com sucesso
                         try {
-                            if (saveListDAO.insertNewSaveList(film.getString("id"), ObjwatchList)) {
-                                Film filme = new Film();
-                                FilmDao filmDao = new FilmDao(getApplicationContext(), filme);
-                                if (filmDao.insertFilm(film)) {
-                                    Log.d("Filme", "Filme cadastrado");
-                                } else {
-                                    Log.d("Filme", "Erro");
-                                }
-                                Toast.makeText(detailsFilmActivity.this, "Filme salvo na watchlist " + ObjwatchList.getName(), Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(detailsFilmActivity.this, "Não foi possível salvar o filme", Toast.LENGTH_SHORT).show();
-                            }
+                            createSavelistFirebase(film, ObjwatchList);
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }
-                        // Verifique se os dados foram salvos com sucesso
-                                            Log.d("Firebase", "Dados salvos com sucesso!");
-//                        try {
-//                            if (saveListDAO.insertNewSaveList(film.getString("id"), ObjwatchList)) {
-//                                Film filme = new Film();
-//                                FilmDao filmDao = new FilmDao(getApplicationContext(), filme);
-//                                if (filmDao.insertFilm(film)) {
-//                                    Log.d("Filme", "Filme cadastrado");
-//                                } else {
-//                                    Log.d("Filme", "Erro");
-//                                }
-//                                Toast.makeText(detailsFilmActivity.this, "Filme salvo na watchlist " + ObjwatchList.getName(), Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                Toast.makeText(detailsFilmActivity.this, "Não foi possível salvar o filme", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
                     }
                 })
                 .create();
@@ -266,9 +230,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
     public void exibirAddLembrete(View view,  JSONObject film, User userPass) {
         view = LayoutInflater.from(this).inflate(R.layout.popup_date_pick, null);
 
-        // Encontrar o DatePicker e o TimePicker
         DatePicker datePicker = view.findViewById(R.id.datePicker);
-        TimePicker timePicker = view.findViewById(R.id.timePicker);
 
         Calendar calendar = Calendar.getInstance();
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null);
@@ -286,12 +248,10 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                 nextButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // Obter a data selecionada
                         int year = datePicker.getYear();
                         int month = datePicker.getMonth();
                         int day = datePicker.getDayOfMonth();
 
-                        // Fechar o diálogo do DatePicker
                         dialog.dismiss();
 
                         exibirTimePicker(day, month, year,  film, userPass);
@@ -307,40 +267,12 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-                Reminder reminder = new Reminder();
-                LembreteDao lembreteDao = new LembreteDao(getApplicationContext(), reminder);
-
                 String date  = day + "/" + (month + 1) + "/" + year + " " + hourOfDay + ":" + minute;
                 String format = "dd/MM/yyyy HH:mm";
                 try {
                     @SuppressLint("SimpleDateFormat") Date dateObject = new SimpleDateFormat(format).parse(date);
-                    database = FirebaseDatabase.getInstance();
-                    DatabaseReference tableReminder = database.getReference("Reminder");
-                    DatabaseReference newItem = tableReminder.push();
-
-                    newItem.child("date").setValue(dateObject);
-                    newItem.child("film_id").setValue(film.getString("id"));
-                    newItem.child("user_id").setValue(userPass.getId());
-                    newItem.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Log.d("Firebase", "Dados salvos com sucesso!");
-                            try {
-                                if(lembreteDao.insertLembrete(date, Integer.parseInt(film.getString("id")), userPass.getId())){
-                                    Toast.makeText(detailsFilmActivity.this, "Lembrete criado com sucesso", Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(detailsFilmActivity.this, "Erro ao criar o lembrete", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException ex) {
-                                throw new RuntimeException(ex);
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            //
-                        }
-                    });
-                } catch (JSONException e) {
+                    createReminderFirebase(dateObject, date, film, userPass);
+                }catch (JSONException e) {
                     throw new RuntimeException(e);
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
@@ -378,7 +310,6 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
             }
 
             return watchlistNames;
-
         }
 
         protected void onPostExecute(List<String> watchlistNames) {
@@ -391,6 +322,174 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
         }
+    }
 
+    private void createSavelistFirebase(JSONObject film, WatchList watchList) throws JSONException {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userID = currentUser.getUid();
+            DatabaseReference savelistRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Savelists");
+            savelistRef.orderByChild("film_id").equalTo(film.getString("id")).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        savelistRef.orderByChild("watchlist_id").equalTo(watchList.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.exists()){
+                                    Toast.makeText(detailsFilmActivity.this, "Esse filme já está em essa watchlist", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    try {
+                                        insertFirebaseSaveList(savelistRef, film, watchList);
+                                        DatabaseReference filmRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Films");
+                                        filmRef.orderByChild("film_id").equalTo(film.getString("id")).addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if(snapshot.exists()){
+                                                    Log.d("", "Filme já cadastrado no firebase");
+                                                }else{
+                                                    try {
+                                                        insertFilmFirebase(filmRef, film);
+                                                    } catch (JSONException e) {
+                                                        throw new RuntimeException(e);
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {}
+                                        });
+                                        Toast.makeText(detailsFilmActivity.this, "Filme adicionado à " + watchList.getName(), Toast.LENGTH_SHORT).show();
+                                    } catch (JSONException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
+                    }else{
+                        try {
+                            insertFirebaseSaveList(savelistRef, film, watchList);
+                            DatabaseReference filmRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Films");
+                            filmRef.orderByChild("film_id").equalTo(film.getString("id")).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists()){
+                                        Log.d("", "Filme já cadastrado no firebase");
+                                    }else{
+                                        try {
+                                            insertFilmFirebase(filmRef, film);
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {}
+                            });
+                            Toast.makeText(detailsFilmActivity.this, "Filme adicionado à " + watchList.getName(), Toast.LENGTH_SHORT).show();
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
+    }
+
+    private void insertFirebaseSaveList(DatabaseReference savelistRef, JSONObject film, WatchList watchlist) throws JSONException {
+
+        SaveListDAO saveListDAO = new SaveListDAO(getApplicationContext(), new SaveList());
+        DatabaseReference newItem = savelistRef.push();
+        newItem.child("film_id").setValue(film.getString("id"));
+        newItem.child("user_id").setValue(watchlist.getUser_id());
+        newItem.child("watchlist_id").setValue(watchlist.getId());
+        newItem.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                try {
+                    saveListDAO.insertNewSaveList(film.getString("id"), watchlist);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void insertFilmFirebase(DatabaseReference filmRef, JSONObject film) throws JSONException {
+        DatabaseReference newItem = filmRef.push();
+        newItem.child("film_id").setValue(film.getString("id"));
+        newItem.child("title").setValue(film.getString("title"));
+        newItem.child("backdrop_path").setValue(film.getString("backdrop_path"));
+        newItem.child("original_language").setValue(film.getString("original_language"));
+        newItem.child("original_title").setValue(film.getString("original_title"));
+        newItem.child("overview").setValue(film.getString("overview"));
+        newItem.child("poster_path").setValue(film.getString("poster_path"));
+        newItem.child("release_date").setValue(film.getString("release_date"));
+        newItem.child("vote_average").setValue(film.getString("vote_average"));
+        newItem.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                FilmDao filmDao = new FilmDao(getApplicationContext(), new Film());
+                if (filmDao.insertFilm(film)) {
+                    Log.d("", "Filme salvo em banco local");
+                } else {
+                    Log.d("", "Não foi possível salvar o filme em banco local");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void createReminderFirebase(Date date, String dateString, JSONObject film, User user) throws JSONException {
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userID = currentUser.getUid();
+            DatabaseReference reminderRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Reminders");
+
+            LembreteDao lembreteDao = new LembreteDao(getApplicationContext(), new Reminder());
+            DatabaseReference newItem = reminderRef.push();
+            newItem.child("date").setValue(date);
+            newItem.child("film_id").setValue(film.getString("id"));
+            newItem.child("user_id").setValue(user.getId());
+            newItem.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    try {
+                        if(lembreteDao.insertLembrete(dateString, Integer.parseInt(film.getString("id")), user.getId())){
+                            DatabaseReference filmRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Films");
+                            filmRef.orderByChild("film_id").equalTo(film.getString("id")).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.exists()){
+                                        Log.d("", "Filme já cadastrado no firebase");
+                                    }else{
+                                        try {
+                                            insertFilmFirebase(filmRef, film);
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {}
+                            });
+                            Toast.makeText(detailsFilmActivity.this, "Lembrete Salvo com Sucesso", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(detailsFilmActivity.this, "Erro em salvar lembrete", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
     }
 }

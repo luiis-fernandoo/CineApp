@@ -31,6 +31,8 @@ import com.example.cineapp.Activities.DAO.WatchlistDao;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,6 +63,7 @@ public class WatchlistFragment extends Fragment {
     private RecyclerView recyclerView;
     private WatchListAdapter adapter;
     private FirebaseDatabase database;
+    private FirebaseAuth firebaseAuth;
 
     public WatchlistFragment() {
         // Required empty public constructor
@@ -120,6 +123,8 @@ public class WatchlistFragment extends Fragment {
         watchlist_edit = rootView.findViewById(R.id.button_watchlist);
         watchlist_delete = rootView.findViewById(R.id.button_watchlist);
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         button_watchlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,58 +164,52 @@ public class WatchlistFragment extends Fragment {
                 User user = new User();
                 UserDao userDao = new UserDao(requireContext(), user);
                 user = userDao.getUserNameID(savedEmail);
-                int userId = user.getId();
 
-//                database = FirebaseDatabase.getInstance();
-//                DatabaseReference tableWatchList = database.getReference("WatchList");
-                User finalUser = user;
-                //tableWatchList.orderByChild("name").equalTo(nameWatchList).addListenerForSingleValueEvent(new ValueEventListener() {
-                    //@Override
-                   // public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        if (dataSnapshot.exists()) {
-//                            Toast.makeText(requireActivity(), "Já existe uma WatchList com este nome.", Toast.LENGTH_SHORT).show();
-//                        } else {
-//                            DatabaseReference newItem = tableWatchList.push();
-//
-//                            newItem.child("name").setValue(nameWatchList);
-//                            newItem.child("user_id").setValue(finalUser);
-                            //newItem.addListenerForSingleValueEvent(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    // Verifique se os dados foram salvos com sucesso
-                                    Log.d("Firebase", "Dados salvos com sucesso!");
+                createWatchlistFirebase(nameWatchList, user);
 
-                                    WatchList watchList = new WatchList(nameWatchList, userId);
-                                    WatchlistDao watchlistDao = new WatchlistDao(requireContext(), watchList);
-
-                                    if (watchlistDao.insertNewWatchList()) {
-                                        // Sucesso ao salvar no Firebase e no banco de dados local
-                                        Toast.makeText(requireActivity(), "WatchList criada com sucesso!", Toast.LENGTH_SHORT).show();
-                                        replaceFragment(new WatchlistFragment());
-                                    } else {
-                                        // Erro ao salvar no banco de dados local
-                                        Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
-                                    }
-
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError error) {
-//                                    // Ocorreu um erro ao salvar no Firebase
-//                                    Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
-//                                    Toast.makeText(requireActivity(), "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
-//                                }
-                            //});
-                        //}
-                //}
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//                        // Handle error
-//                    }
-                //});
                 alertDialog.dismiss();
             }
         });
+    }
+
+    private void createWatchlistFirebase(String watchlistName, User user){
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            String userID = currentUser.getUid();
+            // Crie uma referência para o nó da watchlist do usuário atual
+            DatabaseReference watchlistRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Watchlists");
+            watchlistRef.orderByChild("name").equalTo(watchlistName).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()){
+                        Toast.makeText(requireContext(), "Essa watchlist já existe!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Log.d("", "Else: " + user.getId());
+                        WatchList watchList = new WatchList(watchlistName, user.getId());
+                        WatchlistDao watchlistDao = new WatchlistDao(requireContext(), watchList);
+                        DatabaseReference newItem = watchlistRef.push();
+                        newItem.child("name").setValue(watchlistName);
+                        newItem.child("user_id").setValue(user.getId());
+
+                        newItem.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (watchlistDao.insertNewWatchList()) {
+                                    Toast.makeText(requireActivity(), "WatchList criada com sucesso!", Toast.LENGTH_SHORT).show();
+                                    replaceFragment(new WatchlistFragment());
+                                } else {
+                                    Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {}
+                        });
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {}
+            });
+        }
     }
 
 }
