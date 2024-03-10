@@ -153,7 +153,6 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
                     }
                     //@Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Ocorreu um erro ao salvar no Firebase
                         Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
                         Toast.makeText(DetailsWatchlistActivity.this, "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
                     }
