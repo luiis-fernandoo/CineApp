@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
     }
 
     public class FilmsViewHolder extends RecyclerView.ViewHolder {
-        public Button remove_film;
+        public ImageButton remove_film;
 
         public FilmsViewHolder(@NonNull View itemView) {
             super(itemView);
