@@ -126,7 +126,7 @@ public class NotificationService extends Service {
     private void sendNotification(Context context, User user, Film film) {
         // Crie uma notificação
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
-                .setSmallIcon(R.drawable.cineapp)
+                .setSmallIcon(R.drawable.cineapp2)
                 .setContentTitle("CineApp")
                 .setContentText("Hora de assistir " + (film.getTitle() != null ? film.getTitle() : "O filme Agendado")  + " " + user.getNome())
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

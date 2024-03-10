@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +60,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
     }
 
     public class FilmsViewHolder extends RecyclerView.ViewHolder {
-        public Button remove_film;
+        public ImageButton remove_film;
 
         public FilmsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +88,8 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
                         SaveListDAO saveListDAO = new SaveListDAO(context, saveList);
                         if(saveListDAO.deleteSaveListByIdAndFilm(saveList.getId())){
                             Toast.makeText(context, "Filme removido da sua watchlist", Toast.LENGTH_SHORT).show();
+                            Intent it = new Intent(context, DetailsWatchlistActivity.class);
+                            context.startActivity(it);
                         };
                     }
                 });

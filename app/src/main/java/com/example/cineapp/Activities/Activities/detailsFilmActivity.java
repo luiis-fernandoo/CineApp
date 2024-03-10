@@ -206,7 +206,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
             }
         });
 
-        AlertDialog dialog = new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.CustomAlertDialog)
                 .setView(view)
                 .setTitle("Selecionar Watchlist")
                 .setPositiveButton("Salvar", new DialogInterface.OnClickListener() {
