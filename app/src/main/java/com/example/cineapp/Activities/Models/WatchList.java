@@ -18,6 +18,7 @@ public class WatchList {
     public WatchList(String name){
         this.name = name;
     }
+
     public int getId() {
         return id;
     }

@@ -107,15 +107,25 @@ public class RegisterActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                         String userID = firebaseUser.getUid();
+                        Log.d("", "ID " + userID);
                         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("users");
-                        DatabaseReference newItem = usersRef.push();
-                        newItem.child("user_id").setValue(userID);
-                        newItem.child("email").setValue(email);
-                        newItem.child("nome").setValue(newUser.getNome());
-                        newItem.child("cpf").setValue(newUser.getCpf());
+                        DatabaseReference userRef = usersRef.child(userID);
+
+                        userRef.child("email").setValue(email);
+                        userRef.child("nome").setValue(newUser.getNome());
+                        userRef.child("cpf").setValue(newUser.getCpf());
+
+                        DatabaseReference tableWatchlistRef = userRef.child("Watchlists");
+                        DatabaseReference tableSavelistRef = userRef.child("Savelists");
+                        DatabaseReference tableRemindersRef = userRef.child("Reminders");
+                        DatabaseReference tableFilmsRef = userRef.child("Films");
+
+                        tableWatchlistRef.child("Watchlist").setValue("Default");
+                        tableSavelistRef.child("Savelist").setValue("Default");
+                        tableRemindersRef.child("Reminders").setValue("Default");
+                        tableFilmsRef.child("Films").setValue("Default");
 
                         uploadProfileImage(userID);
-
 
                         if (firebaseUser != null) {
                             saveNameInSharedPreferences(email, senha, newUser.getNome(), newUser.getCpf());
