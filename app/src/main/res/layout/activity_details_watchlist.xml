@@ -4,42 +4,118 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#1B1B1B"
     tools:context=".Activities.Activities.DetailsWatchlistActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewFilm"
-        android:layout_width="356dp"
-        android:layout_height="392dp"
-        android:layout_marginBottom="319dp"
+        android:layout_width="0dp"
+        android:layout_height="519dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <LinearLayout
+        android:id="@+id/edit_watchlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/edit_watchlist"
-        android:layout_width="103dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="140dp"
-        android:layout_marginBottom="114dp"
-        android:text="editar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recycleViewFilm" />
+        app:layout_constraintTop_toBottomOf="@+id/recycleViewFilm"
+        app:layout_constraintVertical_bias="0.25">
 
-    <Button
+    <ImageButton
+        android:id="@+id/imgBtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:padding="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/baseline_edit_24" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTint="#FFFFFF"
+            android:fontFamily="@font/baloo_chettan"
+            android:gravity="center_vertical"
+            android:text="Editar"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/delete_watchlist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="151dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="120dp"
-        android:text="apagar"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="7dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.771"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recycleViewFilm"
+        app:layout_constraintVertical_bias="0.25">
+
+        <ImageButton
+            android:id="@+id/imgBtn1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00FFFFFF"
+            android:padding="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/baseline_delete_forever_test" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTint="#FFFFFF"
+            android:fontFamily="@font/baloo_chettan"
+            android:gravity="center_vertical"
+            android:text="Apagar"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo_chettan"
+        android:gravity="center"
+        android:text="Filmes Salvos"
+        android:textColor="#FFFFFF"
+        android:textSize="26sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.569"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.049" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="46dp"
+        android:layout_height="38dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/baseline_smart_display_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textView14"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/edit_watchlist"
-        app:layout_constraintTop_toBottomOf="@+id/recycleViewFilm" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.049" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
