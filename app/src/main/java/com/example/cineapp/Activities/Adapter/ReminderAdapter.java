@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +58,7 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
 
     public class ReminderViewHolder extends RecyclerView.ViewHolder {
         public TextView reminder;
-        public ImageButton remove_reminder;
+        public Button remove_reminder;
 
         public ReminderViewHolder(View view) {
             super(view);

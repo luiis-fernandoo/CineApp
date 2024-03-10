@@ -1,5 +1,6 @@
 package com.example.cineapp.Activities.DAO;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -99,36 +100,23 @@ public class UserDao {
     }
 
 
+    @SuppressLint("Range")
     public User getUserNameID(String email) {
         SQLiteDatabase dbLite = this.db.getReadableDatabase();
-        User userName = new User(0, "");
-        String nomeUsuario = "";
-        int userId = 0;
 
-        String[] columns = {"_id", "nome"};
-        String selection = "email = ?";
-        String[] selectionArgs = {email};
+        String sql = "Select * From user Where email = '"+ email +"';";
+        User user = new User();
+        Cursor cursor = dbLite.rawQuery(sql, null);
 
-        Cursor cursor = dbLite.query("user", columns, selection, selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                int userIdColumnIndex = cursor.getColumnIndex("_id");
-                int columnIndex = cursor.getColumnIndex("nome");
-                int columnIndexEmail = cursor.getColumnIndex("email");
-                if (userIdColumnIndex != -1 && columnIndex != -1 && columnIndexEmail != -1) {
-                    userId = cursor.getInt(userIdColumnIndex);
-                    nomeUsuario = cursor.getString(columnIndex);
-                    email = cursor.getString(columnIndexEmail);
-                    userName = new User(userId, nomeUsuario, email);
-                }
-            }
-            cursor.close();
+        if (cursor.moveToFirst()) {
+            user.setId(cursor.getInt(cursor.getColumnIndex("_id")));
+            user.setNome(cursor.getString(cursor.getColumnIndex("nome")));
+            user.setEmail(cursor.getString(cursor.getColumnIndex("email")));
         }
+        cursor.close();
+        db.close();
 
-        return userName;
+        return user;
     }
-
-
 
 }

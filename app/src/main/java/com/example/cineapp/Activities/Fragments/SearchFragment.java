@@ -89,6 +89,7 @@ public class SearchFragment extends Fragment implements MyAsyncTask.AsyncTaskLis
         editTextSearch = view.findViewById(R.id.editTextSearch);
         recycleViewSearch = view.findViewById(R.id.recycleViewSearch);
 
+        // Supondo que 'buttonConfirm' seja o ID do botão de confirmação
         ImageButton buttonConfirm = view.findViewById(R.id.buttonConfirm);
 
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
