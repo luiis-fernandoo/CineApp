@@ -142,7 +142,6 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
                         WatchList watchList = new WatchList(nameWatchList, watchlist.getId());
                         WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), watchList);
                         if (watchlistDao.updateWatchlist(watchlist.getId(), nameWatchList)) {
-                            // Sucesso ao salvar no Firebase e no banco de dados local
                             Toast.makeText(DetailsWatchlistActivity.this, "WatchList editada com sucesso!", Toast.LENGTH_SHORT).show();
 
                         } else {
