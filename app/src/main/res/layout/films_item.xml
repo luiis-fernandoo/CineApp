@@ -1,35 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="10dp">
-
-    <ImageView
-        android:id="@+id/watchlistImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:contentDescription="Watchlist Image"
-        android:src="@drawable/baseline_play_circle_24" />
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/film_name"
-        android:layout_width="match_parent"
+        android:layout_width="339dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/remove_film"
+        android:layout_width="58dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:fontFamily="@font/baloo_chettan"
-        android:paddingStart="5dp"
-        android:paddingEnd="5dp"
-        android:textSize="18sp" />
-
-    <ImageButton
-        android:id="@+id/remove_film"
-        android:layout_width="87dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:background="@drawable/baseline_delete_forever_24" />
+        android:text="X" />
 
 </LinearLayout>
 

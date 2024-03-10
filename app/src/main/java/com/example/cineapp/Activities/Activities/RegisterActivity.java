@@ -192,4 +192,3 @@ public class RegisterActivity extends AppCompatActivity {
         editor.apply();
     }
 }
-

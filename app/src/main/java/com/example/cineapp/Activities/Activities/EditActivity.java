@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,9 +61,7 @@ public class EditActivity extends AppCompatActivity {
 
         String imageUrl = sp.getString("profile_image_url", "");
         if (!imageUrl.isEmpty()) {
-            Picasso.get().load(imageUrl)
-                    .transform(new CircleTransform())
-                    .into(imgUser);
+            Picasso.get().load(mSelectedUri).transform(new CircleTransform()).into(imgUser);
         }
 
         bt_salvar.setOnClickListener(v -> {
@@ -143,9 +140,11 @@ public class EditActivity extends AppCompatActivity {
                     .into(imgUser, new Callback() {
 
                         public void onSuccess() {
+                            // Imagem carregada com sucesso
                         }
 
                         public void onError(Exception e) {
+                            // Erro ao carregar a imagem
                             Log.e("Picasso", "Erro ao carregar a imagem: " + e.getMessage());
                         }
                     });

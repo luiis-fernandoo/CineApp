@@ -16,37 +16,38 @@
             android:layout_height="wrap_content"
             android:paddingBottom="40dp">
 
-
             <TextView
                 android:id="@+id/textViewTeste2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="612dp"
                 android:fontFamily="@font/baloo_chettan"
                 android:paddingBottom="10dp"
                 android:text="Mais populares"
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.083"
+                app:layout_constraintHorizontal_bias="0.109"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                app:layout_constraintTop_toBottomOf="@id/imagePrincipal" />
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
-                android:layout_width="409dp"
+                android:layout_width="385dp"
                 android:layout_height="191dp"
+                android:layout_marginTop="27dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textView8"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTeste2"
-                tools:ignore="MissingConstraints">
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="13dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewPopular"
                     android:layout_width="match_parent"
                     android:layout_height="160dp" />
             </LinearLayout>
+
 
             <ImageView
                 android:id="@+id/imagePrincipal"
@@ -68,21 +69,19 @@
                 android:text="Filmes Por vir"
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.078"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imagePrincipal"
+                tools:layout_editor_absoluteX="21dp"
                 tools:ignore="MissingConstraints" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="409dp"
+                android:layout_width="374dp"
                 android:layout_height="186dp"
+                android:layout_marginBottom="24dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewTeste1"
-                tools:ignore="MissingConstraints">
+                app:layout_constraintBottom_toTopOf="@+id/textViewTeste2"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="21dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewTopRated"
@@ -94,27 +93,32 @@
                 android:id="@+id/textViewTeste1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginBottom="24dp"
                 android:fontFamily="@font/baloo_chettan"
                 android:paddingBottom="10dp"
                 android:text="Melhores Classificações"
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.131"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                app:layout_constraintHorizontal_bias="0.132"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="409dp"
                 android:layout_height="170dp"
                 android:layout_marginStart="1dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginEnd="1dp"
+                android:layout_marginBottom="13dp"
                 android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/textViewTeste1"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textViewTeste">
+                app:layout_constraintTop_toBottomOf="@+id/textViewTeste"
+                app:layout_constraintVertical_bias="0.302">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewUpComing"
@@ -127,22 +131,23 @@
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="912dp"
                 android:fontFamily="@font/baloo_chettan"
                 android:paddingBottom="10dp"
                 android:text="Filmes de Terror"
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.086"
+                app:layout_constraintHorizontal_bias="0.088"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
+                app:layout_constraintTop_toBottomOf="@id/imagePrincipal" />
 
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 android:layout_width="409dp"
                 android:layout_height="170dp"
                 android:layout_marginStart="1dp"
+                android:layout_marginTop="44dp"
                 android:layout_marginEnd="1dp"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +157,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewTerror"
-                    android:layout_width="match_parent"
+                    android:layout_width="396dp"
                     android:layout_height="153dp"
                     tools:ignore="MissingConstraints" />
 
@@ -162,7 +167,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="1208dp"
                 android:fontFamily="@font/baloo_chettan"
                 android:paddingBottom="10dp"
                 android:text="Filmes de Comedia"
@@ -171,17 +176,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.084"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+                app:layout_constraintTop_toBottomOf="@id/imagePrincipal" />
 
             <LinearLayout
                 android:id="@+id/linearLayout6"
-                android:layout_width="409dp"
+                android:layout_width="385dp"
                 android:layout_height="191dp"
+                android:layout_marginTop="72dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9"
-                tools:ignore="MissingConstraints">
+                app:layout_constraintTop_toTopOf="@+id/textView9"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="7dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewComedia"
@@ -194,26 +199,26 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="1516dp"
                 android:fontFamily="@font/baloo_chettan"
                 android:paddingBottom="10dp"
                 android:text="Filmes de Romance"
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.084"
+                app:layout_constraintHorizontal_bias="0.062"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
+                app:layout_constraintTop_toBottomOf="@id/imagePrincipal" />
 
             <LinearLayout
                 android:id="@+id/linearLayout7"
-                android:layout_width="409dp"
+                android:layout_width="385dp"
                 android:layout_height="191dp"
+                android:layout_marginTop="48dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView10"
-                tools:ignore="MissingConstraints">
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="7dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewRomance"
@@ -225,26 +230,26 @@
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="1832dp"
                 android:fontFamily="@font/baloo_chettan"
                 android:paddingBottom="10dp"
                 android:text="Ficção Científica"
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.066"
+                app:layout_constraintHorizontal_bias="0.075"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+                app:layout_constraintTop_toBottomOf="@id/imagePrincipal" />
 
             <LinearLayout
                 android:id="@+id/linearLayout8"
-                android:layout_width="409dp"
+                android:layout_width="385dp"
                 android:layout_height="191dp"
+                android:layout_marginTop="48dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView11"
-                tools:ignore="MissingConstraints">
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="7dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewFiccao"
@@ -256,26 +261,26 @@
                 android:id="@+id/textView12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="2168dp"
                 android:fontFamily="@font/baloo_chettan"
                 android:paddingBottom="10dp"
                 android:text="Animação"
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.052"
+                app:layout_constraintHorizontal_bias="0.068"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
+                app:layout_constraintTop_toBottomOf="@id/imagePrincipal" />
 
             <LinearLayout
                 android:id="@+id/linearLayout9"
-                android:layout_width="409dp"
+                android:layout_width="385dp"
                 android:layout_height="191dp"
+                android:layout_marginTop="48dp"
                 android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView12"
-                tools:ignore="MissingConstraints">
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="7dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewAnimacao"
@@ -283,18 +288,21 @@
                     android:layout_height="160dp" />
             </LinearLayout>
 
-            <ImageButton
+            <TextView
                 android:id="@+id/textSearch"
-                android:layout_width="46dp"
-                android:layout_height="44dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/baseline_search_24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="115dp"
+                android:layout_marginTop="51dp"
+                android:layout_marginEnd="78dp"
+                android:layout_marginBottom="54dp"
+                android:text="Pesquisar..."
                 android:textColor="#FFFFFF"
                 android:textSize="23dp"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewTeste"
                 app:layout_constraintTop_toBottomOf="@+id/imagePrincipal" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>

@@ -213,4 +213,3 @@ public class WatchlistFragment extends Fragment {
     }
 
 }
-
