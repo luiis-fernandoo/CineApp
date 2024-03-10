@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.cineapp.Activities.Adapter.Adapter;
 import com.example.cineapp.Activities.Decoration.ItemDecoration;
@@ -89,7 +90,7 @@ public class SearchFragment extends Fragment implements MyAsyncTask.AsyncTaskLis
         recycleViewSearch = view.findViewById(R.id.recycleViewSearch);
 
         // Supondo que 'buttonConfirm' seja o ID do botão de confirmação
-        Button buttonConfirm = view.findViewById(R.id.buttonConfirm);
+        ImageButton buttonConfirm = view.findViewById(R.id.buttonConfirm);
 
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
