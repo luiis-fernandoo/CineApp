@@ -84,10 +84,12 @@ public class NotificationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_notification, container, false);
         SharedPreferences sp = getActivity().getSharedPreferences("app", Context.MODE_PRIVATE);
         String savedEmail = sp.getString("email", "");
-        UserDao userDao = new UserDao(getContext(), new User());
+        User user = new User();
+        UserDao userDao = new UserDao(getContext(), user);
         User userID = userDao.getUserNameID(savedEmail);
         List<Reminder> reminders = new ArrayList<>();
-        LembreteDao lembreteDao = new LembreteDao(getContext(), new Reminder());
+        Reminder reminder = new Reminder();
+        LembreteDao lembreteDao = new LembreteDao(getContext(), reminder);
         reminders = lembreteDao.getAllLembretes(userID);
         recyclerView = rootView.findViewById(R.id.recycler_view_reminders);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
