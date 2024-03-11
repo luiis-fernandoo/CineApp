@@ -187,6 +187,7 @@ public class WatchlistFragment extends Fragment {
                         Log.d("", "Else: " + user.getId());
                         WatchList watchList = new WatchList(watchlistName, user.getId());
                         WatchlistDao watchlistDao = new WatchlistDao(requireContext(), watchList);
+                        watchlistDao.insertNewWatchList();
                         DatabaseReference newItem = watchlistRef.push();
                         newItem.child("name").setValue(watchlistName);
                         newItem.child("user_id").setValue(user.getId());
@@ -194,15 +195,13 @@ public class WatchlistFragment extends Fragment {
                         newItem.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (watchlistDao.insertNewWatchList()) {
-                                    Toast.makeText(requireActivity(), "WatchList criada com sucesso!", Toast.LENGTH_SHORT).show();
-                                    replaceFragment(new WatchlistFragment());
-                                } else {
-                                    Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
-                                }
+                                Toast.makeText(requireActivity(), "WatchList criada com sucesso!", Toast.LENGTH_SHORT).show();
+                                replaceFragment(new WatchlistFragment());
                             }
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {}
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(requireActivity(), "Erro ao criar WatchList.", Toast.LENGTH_SHORT).show();
+                            }
                         });
                     }
                 }
