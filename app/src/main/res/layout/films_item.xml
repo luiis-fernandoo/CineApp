@@ -19,9 +19,11 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:fontFamily="@font/baloo_chettan"
+        android:gravity="clip_vertical"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:textSize="18sp" />
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
 
     <ImageButton
         android:id="@+id/remove_film"
