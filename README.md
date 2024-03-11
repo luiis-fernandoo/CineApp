@@ -11,5 +11,5 @@ Detalhes Completo dos Filmes: Obtenha informações detalhadas sobre cada filme,
 Salve e Agende: Salve os filmes que você deseja assistir mais tarde e até mesmo agende horários de visualização para não perder nada. Receba notificações quando chegar a hora de assistir aos seus filmes favoritos.
 
 ## Estrutura
-![Descrição da Imagem]([Imgur](https://imgur.com/Vi9zykY))
-![Descrição da Imagem]([Imgur](https://imgur.com/PH94Fuc))
+![Descrição da Imagem](https://imgur.com/Vi9zykY)
+![Descrição da Imagem](https://imgur.com/PH94Fuc)
