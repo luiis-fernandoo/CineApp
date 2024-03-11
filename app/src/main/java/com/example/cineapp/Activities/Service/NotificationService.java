@@ -134,7 +134,7 @@ public class NotificationService extends Service {
         // Crie uma intenção para abrir quando a notificação for clicada
         Intent resultIntent = new Intent(context, DetailsWatchlistActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(DetailsWatchlistActivity.class);
+        stackBuilder.addParentStack(HomeFragment.class);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(
                 0,
