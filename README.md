@@ -10,6 +10,10 @@ Detalhes Completo dos Filmes: Obtenha informações detalhadas sobre cada filme,
 
 Salve e Agende: Salve os filmes que você deseja assistir mais tarde e até mesmo agende horários de visualização para não perder nada. Receba notificações quando chegar a hora de assistir aos seus filmes favoritos.
 
-## Estrutura
-![Descrição da Imagem](https://i.imgur.com/xIXYPDt.png)
+## Diagramas
+![Diagrama de caso de uso](https://i.imgur.com/Vi9zykY.png)
+![Diagrama de classe](https://i.imgur.com/PH94Fuc.png)
+## Principais telas
+![Tela de Home](https://i.imgur.com/YLpQdKI.png)
+![Tela de Detalhes](https://i.imgur.com/xIXYPDt.png)
 
