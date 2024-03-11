@@ -56,6 +56,7 @@
             app:layout_constraintStart_toStartOf="@id/containerComponents"
             app:layout_constraintEnd_toEndOf="@id/containerComponents"
             app:layout_constraintTop_toBottomOf="@+id/edit_email"
+            android:maxLength="320"
             />
 
         <androidx.appcompat.widget.AppCompatButton
