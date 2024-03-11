@@ -89,6 +89,7 @@ public class FilmsAdapter extends RecyclerView.Adapter<FilmsAdapter.FilmsViewHol
                         if(saveListDAO.deleteSaveListByIdAndFilm(saveList.getId())){
                             Toast.makeText(context, "Filme removido da sua watchlist", Toast.LENGTH_SHORT).show();
                             Intent it = new Intent(context, DetailsWatchlistActivity.class);
+                            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(it);
                         };
                     }
