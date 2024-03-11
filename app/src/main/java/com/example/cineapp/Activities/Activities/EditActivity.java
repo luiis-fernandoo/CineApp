@@ -33,6 +33,8 @@ public class EditActivity extends AppCompatActivity {
     private ImageView imgUser;
     private Uri mSelectedUri;
     private String userID;
+    private boolean profileImageChanged = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +94,9 @@ public class EditActivity extends AppCompatActivity {
                     editor.putString("senha", senha);
                     editor.apply();
 
-                    uploadProfileImage(userID);
+                    if (profileImageChanged) {
+                        uploadProfileImage(userID);
+                    }
 
                     Toast.makeText(EditActivity.this, "Usuário atualizado com sucesso!", Toast.LENGTH_SHORT).show();
                     finish();
@@ -130,6 +134,7 @@ public class EditActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, 0);
+        profileImageChanged = true;
     }
 
     @Override

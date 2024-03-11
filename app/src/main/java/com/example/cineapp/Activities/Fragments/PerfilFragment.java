@@ -239,10 +239,10 @@ public class PerfilFragment extends Fragment {
         editor.remove("email");
         editor.remove("nome");
         editor.remove("photoUrl");
-
+        editor.remove("cpf");
+        editor.remove("senha");
 
         editor.apply();
-
         // Após deslogar, redireciona para a tela de login
         Intent intent = new Intent(requireActivity(), LoginActivity.class);
         startActivity(intent);
