@@ -13,7 +13,7 @@ Salve e Agende: Salve os filmes que você deseja assistir mais tarde e até mesm
 
 | ## Diagramas           | ## Principais Telas   |
 |------------------------|-----------------------|
-| ![Diagrama de caso de uso](https://i.imgur.com/Vi9zykY.png) | ![Tela de Detalhes](https://i.imgur.com/xIXYPDt.png) ![Tela de Home](https://i.imgur.com/YLpQdKI.png) |
-| ![Diagrama de classe](https://i.imgur.com/PH94Fuc.png) |  ![Tela de Detalhes](https://i.imgur.com/xIXYPDt.png)|
+| ![Diagrama de caso de uso](https://i.imgur.com/Vi9zykY.png) | ![Tela de Home](https://i.imgur.com/YLpQdKI.png) |
+| ![Diagrama de classe](https://i.imgur.com/PH94Fuc.png) | ![Tela de Detalhes](https://i.imgur.com/xIXYPDt.png)|
 
 
