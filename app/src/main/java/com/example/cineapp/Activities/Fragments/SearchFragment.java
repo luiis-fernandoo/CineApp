@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
 import com.example.cineapp.Activities.Adapter.Adapter;
 import com.example.cineapp.Activities.Decoration.ItemDecoration;
 import com.example.cineapp.Activities.Decoration.SpaceItemDecoration;
@@ -90,6 +91,7 @@ public class SearchFragment extends Fragment implements MyAsyncTask.AsyncTaskLis
 
         // Supondo que 'buttonConfirm' seja o ID do botão de confirmação
         ImageButton buttonConfirm = view.findViewById(R.id.buttonConfirm);
+
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
