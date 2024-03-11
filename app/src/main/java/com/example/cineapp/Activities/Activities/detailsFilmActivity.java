@@ -421,6 +421,8 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
     }
 
     private void insertFilmFirebase(DatabaseReference filmRef, JSONObject film) throws JSONException {
+        FilmDao filmDao = new FilmDao(getApplicationContext(), new Film());
+        filmDao.insertFilm(film);
         DatabaseReference newItem = filmRef.push();
         newItem.child("film_id").setValue(film.getString("id"));
         newItem.child("title").setValue(film.getString("title"));
@@ -434,12 +436,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
         newItem.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                FilmDao filmDao = new FilmDao(getApplicationContext(), new Film());
-                if (filmDao.insertFilm(film)) {
-                    Log.d("", "Filme salvo em banco local");
-                } else {
-                    Log.d("", "Não foi possível salvar o filme em banco local");
-                }
+                Toast.makeText(detailsFilmActivity.this, "Filme adicionado com sucesso", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
@@ -453,6 +450,7 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
             DatabaseReference reminderRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Reminders");
 
             LembreteDao lembreteDao = new LembreteDao(getApplicationContext(), new Reminder());
+            lembreteDao.insertLembrete(dateString, Integer.parseInt(film.getString("id")), user.getId());
             DatabaseReference newItem = reminderRef.push();
             newItem.child("date").setValue(date);
             newItem.child("film_id").setValue(film.getString("id"));
@@ -461,7 +459,6 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     try {
-                        if(lembreteDao.insertLembrete(dateString, Integer.parseInt(film.getString("id")), user.getId())){
                             DatabaseReference filmRef = FirebaseDatabase.getInstance().getReference("users").child(userID).child("Films");
                             filmRef.orderByChild("film_id").equalTo(film.getString("id")).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -480,9 +477,6 @@ public class detailsFilmActivity extends AppCompatActivity implements MyAsyncTas
                                 public void onCancelled(@NonNull DatabaseError error) {}
                             });
                             Toast.makeText(detailsFilmActivity.this, "Lembrete Salvo com Sucesso", Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(detailsFilmActivity.this, "Erro em salvar lembrete", Toast.LENGTH_SHORT).show();
-                        }
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
                     }
