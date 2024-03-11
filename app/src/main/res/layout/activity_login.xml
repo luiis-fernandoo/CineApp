@@ -41,6 +41,8 @@
             app:layout_constraintStart_toStartOf="@id/containerComponents"
             app:layout_constraintEnd_toEndOf="@id/containerComponents"
             app:layout_constraintTop_toTopOf="@id/containerComponents"
+            android:maxLength="320"
+
             />
         <EditText
             android:id="@+id/edit_senha"
