@@ -200,9 +200,6 @@ public class PerfilFragment extends Fragment {
             dialog.show();
         });
 
-
-
-
         bt_deslogar.setOnClickListener(v -> {
             logoutUser();
         });

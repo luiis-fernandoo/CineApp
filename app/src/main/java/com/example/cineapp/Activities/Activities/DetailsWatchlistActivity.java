@@ -29,6 +29,7 @@ import com.example.cineapp.Activities.DAO.FilmDao;
 import com.example.cineapp.Activities.DAO.SaveListDAO;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
+import com.example.cineapp.Activities.Fragments.WatchlistFragment;
 import com.example.cineapp.Activities.Models.Film;
 import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
@@ -87,7 +88,7 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(watchlistDao.deleteWatchList(finalWatchList.getId(), getApplicationContext())){
                     Toast.makeText(DetailsWatchlistActivity.this, "Deletado com sucesso", Toast.LENGTH_SHORT).show();
-
+                    finish();
                 }else{
                     Toast.makeText(DetailsWatchlistActivity.this, "Falha para deletar", Toast.LENGTH_SHORT).show();
                 }
