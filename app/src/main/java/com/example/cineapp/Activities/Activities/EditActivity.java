@@ -1,20 +1,15 @@
 package com.example.cineapp.Activities.Activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.R;

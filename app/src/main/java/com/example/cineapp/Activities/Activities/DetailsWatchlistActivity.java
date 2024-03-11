@@ -17,9 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +27,6 @@ import com.example.cineapp.Activities.DAO.FilmDao;
 import com.example.cineapp.Activities.DAO.SaveListDAO;
 import com.example.cineapp.Activities.DAO.UserDao;
 import com.example.cineapp.Activities.DAO.WatchlistDao;
-import com.example.cineapp.Activities.Fragments.WatchlistFragment;
 import com.example.cineapp.Activities.Models.Film;
 import com.example.cineapp.Activities.Models.SaveList;
 import com.example.cineapp.Activities.Models.User;
@@ -128,36 +125,17 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
                 EditText editTextInput = popupView.findViewById(R.id.editText_input);
                 String nameWatchList = editTextInput.getText().toString();
 
-//                FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                DatabaseReference tableWatchList = database.getReference("WatchList");
-//                DatabaseReference newItem = tableWatchList.push();
-//
-//                newItem.child("name").setValue(nameWatchList);
-//                newItem.child("user_id").setValue(user);
-//                newItem.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        // Verifique se os dados foram salvos com sucesso
-//                        Log.d("Firebase", "Dados salvos com sucesso!");
+                WatchList watchList = new WatchList(nameWatchList, watchlist.getId());
+                WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), watchList);
+                if (watchlistDao.updateWatchlist(watchlist.getId(), nameWatchList)) {
+                    // Sucesso ao salvar no Firebase e no banco de dados local
+                    Toast.makeText(DetailsWatchlistActivity.this, "WatchList editada com sucesso!", Toast.LENGTH_SHORT).show();
 
-                        WatchList watchList = new WatchList(nameWatchList, watchlist.getId());
-                        WatchlistDao watchlistDao = new WatchlistDao(getApplicationContext(), watchList);
-                        if (watchlistDao.updateWatchlist(watchlist.getId(), nameWatchList)) {
-                            // Sucesso ao salvar no Firebase e no banco de dados local
-                            Toast.makeText(DetailsWatchlistActivity.this, "WatchList editada com sucesso!", Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            Toast.makeText(DetailsWatchlistActivity.this, "Erro ao alterar WatchList.", Toast.LENGTH_SHORT).show();
-                        }
-                        alertDialog.dismiss();
-                    }
-                    //@Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
-                        Toast.makeText(DetailsWatchlistActivity.this, "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
-                    }
-                //});
+                } else {
+                    Toast.makeText(DetailsWatchlistActivity.this, "Erro ao alterar WatchList.", Toast.LENGTH_SHORT).show();
+                }
+                alertDialog.dismiss();
+            }
             });
         }
-    //}
 }

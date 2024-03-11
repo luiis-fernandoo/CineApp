@@ -11,13 +11,11 @@ public class FeedEntry implements BaseColumns {
     static FeedEntryWatchlist feedEntryWatchlist = new FeedEntryWatchlist();
     static FeedEntrySaveList feedEntrySaveList = new FeedEntrySaveList();
     static FeedEntryFilm feedEntryFilm = new FeedEntryFilm();
-    static FeedEntryCategory feedEntryCategory = new FeedEntryCategory();
-    static FeedEntryCast feedEntryCast = new FeedEntryCast();
     static FeedEntryLembrete feedEntryLembrete = new FeedEntryLembrete();
 
     public static class DBHelpers extends SQLiteOpenHelper {
         public static final int DATABASE_VERSION = 1;
-        public static final String DATABASE_NAME = "cineApp.db";
+        public static final String DATABASE_NAME = "cineAppOficial.db";
 
         private static final String SQL_CREATE_ENTRIES_USER =
                 "CREATE TABLE " + feedEntryUser.TABLE_NAME + " (" +
@@ -26,20 +24,6 @@ public class FeedEntry implements BaseColumns {
                         feedEntryUser.COLUMN_NAME_EMAIL + " TEXT, " +
                         feedEntryUser.COLUMN_NAME_CPF + " TEXT, " +
                         feedEntryUser.COLUMN_NAME_PASSWORD + " TEXT)";
-
-        private static final String SQL_CREATE_ENTRIES_CAST =
-                "CREATE TABLE " + feedEntryCast.TABLE_NAME + " (" +
-                        feedEntryCast._ID + " INTEGER PRIMARY KEY, " +
-                        feedEntryCast.COLUMN_NAME_PROFILE_PATH + " TEXT, " +
-                        feedEntryCast.COLUMN_NAME_CAST_ID + " TEXT, " +
-                        feedEntryCast.COLUMN_NAME_CHARACTER + " TEXT, " +
-                        feedEntryCast.COLUMN_NAME_CREDIT_ID + " TEXT, " +
-                        feedEntryCast.COLUMN_NAME_NAME + " TEXT)";
-
-        private static final String SQL_CREATE_ENTRIES_CATEGORY =
-                "CREATE TABLE " + feedEntryCategory.TABLE_NAME + " (" +
-                        feedEntryCategory._ID + " INTEGER PRIMARY KEY, " +
-                        feedEntryCategory.COLUMN_NAME_NAME + " TEXT)";
 
         private static final String SQL_CREATE_ENTRIES_FILM =
                 "CREATE TABLE " + feedEntryFilm.TABLE_NAME + " (" +
@@ -86,10 +70,7 @@ public class FeedEntry implements BaseColumns {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-            // Cria as tabelas
             db.execSQL(SQL_CREATE_ENTRIES_USER);
-            db.execSQL(SQL_CREATE_ENTRIES_CAST);
-            db.execSQL(SQL_CREATE_ENTRIES_CATEGORY);
             db.execSQL(SQL_CREATE_ENTRIES_FILM);
             db.execSQL(SQL_CREATE_ENTRIES_SAVELIST);
             db.execSQL(SQL_CREATE_ENTRIES_WATCHLIST);

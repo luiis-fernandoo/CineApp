@@ -15,17 +15,12 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.cineapp.Activities.Adapter.Adapter;
 import com.example.cineapp.Activities.Broadcast.MyWorker;
@@ -50,7 +45,6 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
     private String reference;
     View view;
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -95,7 +89,6 @@ public class HomeFragment extends Fragment implements MyAsyncTask.AsyncTaskListe
 
         Context context = getContext();
         constraintLayout = view.findViewById(R.id.constraintLayout);
-        createWatchList = view.findViewById(R.id.createWatchList);
         perfil = view.findViewById(R.id.perfil);
         textViewTeste = view.findViewById(R.id.textViewTeste);
         recyclerViewTopRated = view.findViewById(R.id.recyclerViewTopRated);

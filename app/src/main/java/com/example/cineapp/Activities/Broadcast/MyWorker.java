@@ -122,7 +122,7 @@ public class MyWorker extends Worker {
             return dateFormat.parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null; // Ou trate o erro de acordo com sua lógica de negócio
+            return null;
         }
     }
 }

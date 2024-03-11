@@ -1,26 +1,19 @@
 package com.example.cineapp.Activities.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.cineapp.Activities.Activities.DetailsWatchlistActivity;
 import com.example.cineapp.Activities.DAO.FilmDao;
 import com.example.cineapp.Activities.DAO.LembreteDao;
-import com.example.cineapp.Activities.DAO.SaveListDAO;
 import com.example.cineapp.Activities.Models.Film;
 import com.example.cineapp.Activities.Models.Reminder;
-import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
 
 import java.util.List;
@@ -49,7 +42,6 @@ public class ReminderAdapter extends RecyclerView.Adapter<ReminderAdapter.Remind
     public void onBindViewHolder(@NonNull ReminderAdapter.ReminderViewHolder holder, int position) {
         Reminder reminder = reminders.get(position);
         holder.bind(reminder, this.context);
-        // Configurar outros detalhes da watchlist, se necessário
     }
 
     @Override

@@ -5,13 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.cineapp.Activities.Adapter.Adapter;
-import com.example.cineapp.Activities.Decoration.ItemDecoration;
-import com.example.cineapp.Activities.Decoration.SpaceItemDecoration;
 import com.example.cineapp.Activities.Helpers.MyAsyncTask;
 import com.example.cineapp.R;
 

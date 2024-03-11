@@ -1,10 +1,8 @@
 package com.example.cineapp.Activities.Service;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.RemoteInput;
 import android.app.Service;
 import android.app.TaskStackBuilder;
 import android.content.Context;
@@ -15,8 +13,6 @@ import android.os.IBinder;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.cineapp.Activities.Activities.DetailsWatchlistActivity;
@@ -28,15 +24,9 @@ import com.example.cineapp.Activities.Models.Film;
 import com.example.cineapp.Activities.Models.Reminder;
 import com.example.cineapp.Activities.Models.User;
 import com.example.cineapp.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;

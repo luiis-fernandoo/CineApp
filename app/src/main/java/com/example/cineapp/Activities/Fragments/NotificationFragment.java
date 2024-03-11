@@ -9,19 +9,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.view.LayoutInflater;
 import com.example.cineapp.Activities.Adapter.ReminderAdapter;
-import com.example.cineapp.Activities.Adapter.WatchListAdapter;
 import com.example.cineapp.Activities.DAO.LembreteDao;
 import com.example.cineapp.Activities.DAO.UserDao;
-import com.example.cineapp.Activities.DAO.WatchlistDao;
 import com.example.cineapp.Activities.Models.Reminder;
 import com.example.cineapp.Activities.Models.User;
-import com.example.cineapp.Activities.Models.WatchList;
 import com.example.cineapp.R;
 
 import java.util.ArrayList;
