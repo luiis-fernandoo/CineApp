@@ -147,14 +147,12 @@ public class DetailsWatchlistActivity extends AppCompatActivity {
                             Toast.makeText(DetailsWatchlistActivity.this, "WatchList editada com sucesso!", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            // Erro ao salvar no banco de dados local
                             Toast.makeText(DetailsWatchlistActivity.this, "Erro ao alterar WatchList.", Toast.LENGTH_SHORT).show();
                         }
                         alertDialog.dismiss();
                     }
                     //@Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        // Ocorreu um erro ao salvar no Firebase
                         Log.d("Firebase", "Erro ao salvar dados: " + error.getMessage());
                         Toast.makeText(DetailsWatchlistActivity.this, "Erro ao salvar dados no Firebase.", Toast.LENGTH_SHORT).show();
                     }
